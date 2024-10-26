@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "thecoins",
+  "version": "${version}",
+  "name": "theCoins",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/liangmi/theCoins"
+  },
+  "license": "Apache-2.0",
+  "icon": "assets/thecoins/icon.png",
+  "environment": "server",
+  "entrypoints": {
+
+    "main": [
+      "net.mirolls.thecoins.TheCoins"
+    ]
+  },
+  "mixins": [
+    "thecoins.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
