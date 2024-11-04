@@ -64,7 +64,23 @@ public class MinecraftFile {
       );
     } catch (IOException e) {
       TheCoins.LOGGER.error("Cannot get " + filename + " in " + dirPath + e);
+      throw new Error("Cannot read the file");
     }
-    return null;
   }
+
+  public static void writeJSON(String dirPath, String filename, HashMap<String, String> data) {
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    try {
+      File file = new File(new File(new File("."), dirPath), filename);
+      file.getParentFile().mkdirs();
+
+      objectMapper.writeValue(file, data);
+
+    } catch (IOException e) {
+      TheCoins.LOGGER.error("Cannot write to " + filename + " in " + dirPath + " - " + e);
+      throw new Error("Cannot write the file");
+    }
+  }
+
 }
