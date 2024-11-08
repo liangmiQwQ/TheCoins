@@ -27,7 +27,6 @@ public class Menu {
     menu.setDamage(0);
 
     NbtList loreList = new NbtList();
-    loreList.add(new NbtCompound());
     loreList.add(NbtString.of(
         Text.Serialization.toJsonString(
             Text.literal(
@@ -51,7 +50,7 @@ public class Menu {
       player.getInventory().removeOne(menu);
     }
 
-    player.getInventory().setStack(9, menu);
+    player.getInventory().setStack(8, menu);
   }
 
   public static boolean hasMenu(ServerPlayerEntity player) {
@@ -61,5 +60,21 @@ public class Menu {
   public static boolean hasMenu(ServerPlayerEntity player, ItemStack menu) {
     return player.getInventory().contains(menu);
     // players don't need read json file again
+  }
+
+  public static boolean isMenu(ItemStack itemStack) {
+    if (itemStack.hasNbt()) {
+      NbtCompound nbt = itemStack.getNbt();
+      if (nbt != null && nbt.contains("display", 10)) {  // 检查 "display" 是否存在，且是一个 compound
+        NbtCompound displayTag = nbt.getCompound("display");
+        if (displayTag.contains("SpecialItemID", 8)) {  // 检查 "SpecialItemID" 是否存在，且是一个字符串类型
+          if (displayTag.getString("SpecialItemID").equals("Menu")) {
+            return true;
+          }
+          ;
+        }
+      }
+    }
+    return false;
   }
 }
