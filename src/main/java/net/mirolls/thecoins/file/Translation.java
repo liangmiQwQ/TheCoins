@@ -23,13 +23,13 @@ public class Translation {
   public String getTranslation(String translateID) {
     initTranslation();
 
-    if (cachedTranslation.isEmpty()) {
+    if (cachedTranslation == null) {
       cachedTranslation = MinecraftFile.getJSON("skyblock", lang + ".json");
     }
-    if (cachedTranslation != null) {
+    if (!cachedTranslation.isEmpty()) {
       return cachedTranslation.get(translateID);
     } else {
-      return "";
+      return "null";
     }
   }
 }

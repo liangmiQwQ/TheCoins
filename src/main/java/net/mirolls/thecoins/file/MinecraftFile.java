@@ -1,6 +1,5 @@
 package net.mirolls.thecoins.file;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.mirolls.thecoins.TheCoins;
 
@@ -59,8 +58,7 @@ public class MinecraftFile {
     try {
       return objectMapper.readValue(
           new File(new File(new File("."), dirPath), filename),
-          new TypeReference<>() {
-          }
+          objectMapper.getTypeFactory().constructMapType(HashMap.class, String.class, String.class)
       );
     } catch (IOException e) {
       TheCoins.LOGGER.error("Cannot get " + filename + " in " + dirPath + e);

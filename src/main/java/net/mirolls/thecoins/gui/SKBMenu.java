@@ -1,6 +1,6 @@
 package net.mirolls.thecoins.gui;
 
-public class Menu {
+public class SKBMenu {
   public static void open() {
 
   }

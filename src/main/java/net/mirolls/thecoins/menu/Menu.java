@@ -17,7 +17,8 @@ public class Menu {
 
   public static ItemStack getMenu(ServerPlayerEntity player) {
     ItemStack menu = new ItemStack(Items.NETHER_STAR);
-    Translation translation = new Translation(LanguageConfig.getPlayerLanguage(player.getUuidAsString()));
+    String playerLanguage = LanguageConfig.getPlayerLanguage(player.getUuidAsString());
+    Translation translation = new Translation(playerLanguage);
 
     menu.setCustomName(Text.literal(translation.getTranslation("menu")).setStyle(
         Style.EMPTY.withColor(TextColor.fromRgb(MinecraftColor.hexToRgb("#FFAA00")))

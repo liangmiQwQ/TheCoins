@@ -16,9 +16,15 @@ public class LanguageConfig {
     initLanguageConfigFile();
     HashMap<String, String> playerLanguageMap = MinecraftFile.getJSON("skyblock", "language.json");
     if (playerLanguageMap != null) {
-      return playerLanguageMap.get(playerUUID); // attention: there is UUID
+      if (playerLanguageMap.containsKey(playerUUID)) {
+        return playerLanguageMap.get(playerUUID); // attention: there is UUID
+      } else {
+        setPlayerLanguage(playerUUID, "en_us");
+        return "en_us";
+      }
     } else {
-      return "";
+      setPlayerLanguage(playerUUID, "en_us");
+      return "en_us";
     }
   }
 
