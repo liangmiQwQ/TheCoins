@@ -18,6 +18,5 @@ public class TheCoins implements ModInitializer {
     LOGGER.info("The Coins mod is running");
     MenuHandle.menuGive();
     MenuHandle.menuRemover();
-    MenuHandle.menuProtector();
   }
 }

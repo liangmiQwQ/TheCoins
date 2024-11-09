@@ -46,20 +46,25 @@ public class Menu {
   public static void replaceMenu(ServerPlayerEntity player) {
     ItemStack menu = getMenu(player);
 
-    if (hasMenu(player, menu)) {
-      player.getInventory().removeOne(menu);
+    if (hasMenu(player)) {
+      removeMenu(player);
     }
 
     player.getInventory().setStack(8, menu);
   }
 
   public static boolean hasMenu(ServerPlayerEntity player) {
-    return player.getInventory().contains(getMenu(player));
+    return player.getInventory().main.stream().filter(itemStack -> !itemStack.isEmpty()).anyMatch(Menu::isMenu);
   }
 
-  public static boolean hasMenu(ServerPlayerEntity player, ItemStack menu) {
-    return player.getInventory().contains(menu);
-    // players don't need read json file again
+  public static void removeMenu(ServerPlayerEntity player) {
+    player.getInventory().main.replaceAll(itemStack -> {
+      if (isMenu(itemStack)) {
+        return ItemStack.EMPTY;
+      } else {
+        return itemStack;
+      }
+    });
   }
 
   public static boolean isMenu(ItemStack itemStack) {

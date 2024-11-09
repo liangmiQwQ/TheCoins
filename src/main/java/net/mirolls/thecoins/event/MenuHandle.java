@@ -3,7 +3,6 @@ package net.mirolls.thecoins.event;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.menu.Menu;
@@ -27,20 +26,12 @@ public class MenuHandle {
       if (handler.isPlayer()) {
         ServerPlayerEntity player = (ServerPlayerEntity) handler;
         TheCoins.LOGGER.info(player.getName().getString() + "is dying, ready to remove his menu");
-        ItemStack menu = Menu.getMenu(player);
 
-        if (Menu.hasMenu(player, menu)) {
-          player.getInventory().removeOne(menu);
-          // remove this item
+        if (Menu.hasMenu(player)) {
+          Menu.removeMenu(player);
         }
       }
       return true;
     });
   }
-
-  public static void menuProtector() {
-
-  }
-
-
 }
