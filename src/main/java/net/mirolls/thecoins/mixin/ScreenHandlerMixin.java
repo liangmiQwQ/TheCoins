@@ -29,12 +29,24 @@ public abstract class ScreenHandlerMixin {
   public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
     if (slotIndex != -999) {
       ItemStack stack = getSlot(slotIndex).getStack();
-
       if (Menu.isMenu(stack)) {
         SKBMenu.open();
         ci.cancel();
       }
     }
   }
+
+  @Inject(method = "internalOnSlotClick", at = @At("HEAD"), cancellable = true)
+  private void internalOnSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
+    if (actionType == SlotActionType.SWAP && (button >= 0 && button < 9 || button == 40)) {
+      ItemStack itemStackInHand = player.getInventory().getStack(button); // stack at cursor
+      Slot slot = this.slots.get(slotIndex);
+      ItemStack itemStackInSlot = slot.getStack();// stack at inventory
+      if (Menu.isMenu(itemStackInHand) || Menu.isMenu(itemStackInSlot)) {
+        ci.cancel();
+      }
+    }
+  }
+
 }
 
