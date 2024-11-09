@@ -4,7 +4,9 @@
   "package": "net.mirolls.thecoins.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AbstractRecipeScreenHandlerMixin",
     "PlayerEntityMixin",
+    "PlayerScreenHandlerMixin",
     "ScreenHandlerMixin"
   ],
   "injectors": {

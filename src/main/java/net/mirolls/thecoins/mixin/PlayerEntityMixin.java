@@ -5,7 +5,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.menu.Menu;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,9 +19,8 @@ public abstract class PlayerEntityMixin {
 
   @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
   private void dropItem(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
-    TheCoins.LOGGER.info("Someone try to drop item, re-giving new menu");
     this.getInventory().setStack(8, Menu.getMenu((LivingEntity) (Object) this));
-    
+
     if (Menu.isMenu(stack)) {
       cir.setReturnValue(null);
     }
