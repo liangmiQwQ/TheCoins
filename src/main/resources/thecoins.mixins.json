@@ -4,6 +4,7 @@
   "package": "net.mirolls.thecoins.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "LivingEntityMixin",
     "PlayerEntityMixin",
     "ScreenHandlerMixin"
   ],
