@@ -1,5 +1,6 @@
 package net.mirolls.thecoins.menu;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -16,9 +17,19 @@ import net.mirolls.thecoins.libs.MinecraftColor;
 public class Menu {
 
   public static ItemStack getMenu(ServerPlayerEntity player) {
-    ItemStack menu = new ItemStack(Items.NETHER_STAR);
     String playerLanguage = LanguageConfig.getPlayerLanguage(player.getUuidAsString());
     Translation translation = new Translation(playerLanguage);
+    return getMenuStack(translation);
+  }
+
+  public static ItemStack getMenu(LivingEntity player) {
+    String playerLanguage = LanguageConfig.getPlayerLanguage(player.getUuidAsString());
+    Translation translation = new Translation(playerLanguage);
+    return getMenuStack(translation);
+  }
+
+  private static ItemStack getMenuStack(Translation translation) {
+    ItemStack menu = new ItemStack(Items.NETHER_STAR);
 
     menu.setCustomName(Text.literal(translation.getTranslation("menu")).setStyle(
         Style.EMPTY.withColor(TextColor.fromRgb(MinecraftColor.hexToRgb("#FFAA00")))
@@ -41,6 +52,7 @@ public class Menu {
     displayTag.put("SpecialItemID", NbtString.of("Menu"));
 
     return menu;
+
   }
 
   public static void replaceMenu(ServerPlayerEntity player) {
