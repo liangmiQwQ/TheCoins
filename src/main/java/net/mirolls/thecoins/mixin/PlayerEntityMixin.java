@@ -19,9 +19,8 @@ public abstract class PlayerEntityMixin {
 
   @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
   private void dropItem(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
-    this.getInventory().setStack(8, Menu.getMenu((LivingEntity) (Object) this));
-
     if (Menu.isMenu(stack)) {
+      this.getInventory().setStack(8, Menu.getMenu((LivingEntity) (Object) this));
       cir.setReturnValue(null);
     }
   }
