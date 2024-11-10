@@ -32,7 +32,7 @@ public abstract class ScreenHandlerMixin {
     if (slotIndex != -999 && actionType != SlotActionType.SWAP) {
       ItemStack stack = getSlot(slotIndex).getStack();
       if (Menu.isMenu(stack)) {
-        SKBMenu.open();
+        SKBMenu.open(player);
         ci.cancel();
       }
     }
