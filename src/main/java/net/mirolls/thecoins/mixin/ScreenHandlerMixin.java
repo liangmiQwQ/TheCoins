@@ -25,6 +25,9 @@ public abstract class ScreenHandlerMixin {
   @Shadow
   public abstract Slot getSlot(int index);
 
+  @Shadow
+  protected abstract void internalOnSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player);
+
   @Inject(method = "onSlotClick", at = @At("HEAD"), cancellable = true)
   public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
     if (slotIndex != -999) {
@@ -36,14 +39,12 @@ public abstract class ScreenHandlerMixin {
     }
   }
 
-  @Inject(method = "internalOnSlotClick", at = @At("HEAD"), cancellable = true)
+  @Inject(method = "internalOnSlotClick", at = @At("HEAD"))
   private void internalOnSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
-    if (actionType == SlotActionType.SWAP && (button >= 0 && button < 9 || button == 40)) {
-      ItemStack itemStackInHand = player.getInventory().getStack(button); // stack at cursor
-      Slot slot = this.slots.get(slotIndex);
-      ItemStack itemStackInSlot = slot.getStack();// stack at inventory
-      if (Menu.isMenu(itemStackInHand) || Menu.isMenu(itemStackInSlot)) {
-        ci.cancel();
+    if (actionType == SlotActionType.SWAP && (button >= 0 && button < 9 || button == 40)) { //0-9 bar or offhand
+      ItemStack itemStackInSlot = player.getInventory().getStack(button);
+      if (Menu.isMenu(itemStackInSlot)) {
+        internalOnSlotClick(button, slotIndex, SlotActionType.SWAP, player);
       }
     }
   }
