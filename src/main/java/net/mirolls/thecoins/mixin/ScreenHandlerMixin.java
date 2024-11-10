@@ -6,6 +6,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.collection.DefaultedList;
+import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.gui.SKBMenu;
 import net.mirolls.thecoins.menu.Menu;
 import org.spongepowered.asm.mixin.Final;
@@ -21,16 +22,14 @@ public abstract class ScreenHandlerMixin {
   @Shadow
   @Final
   public DefaultedList<Slot> slots;
+//  private boolean canSWAP = false;
 
   @Shadow
   public abstract Slot getSlot(int index);
 
-  @Shadow
-  protected abstract void internalOnSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player);
-
   @Inject(method = "onSlotClick", at = @At("HEAD"), cancellable = true)
   public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
-    if (slotIndex != -999) {
+    if (slotIndex != -999 && actionType != SlotActionType.SWAP) {
       ItemStack stack = getSlot(slotIndex).getStack();
       if (Menu.isMenu(stack)) {
         SKBMenu.open();
@@ -39,12 +38,19 @@ public abstract class ScreenHandlerMixin {
     }
   }
 
-  @Inject(method = "internalOnSlotClick", at = @At("HEAD"))
+  @Inject(method = "internalOnSlotClick", at = @At("HEAD"), cancellable = true)
   private void internalOnSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player, CallbackInfo ci) {
     if (actionType == SlotActionType.SWAP && (button >= 0 && button < 9 || button == 40)) { //0-9 bar or offhand
       ItemStack itemStackInSlot = player.getInventory().getStack(button);
+      Slot slot = this.slots.get(slotIndex);
+      ItemStack itemStackInHand = slot.getStack();
+      TheCoins.LOGGER.info("SlotItem" + itemStackInSlot + "HandItem" + itemStackInHand);
       if (Menu.isMenu(itemStackInSlot)) {
-        internalOnSlotClick(button, slotIndex, SlotActionType.SWAP, player);
+        slot.setStack(itemStackInHand);
+        ci.cancel();
+      } else if (Menu.isMenu(itemStackInHand)) {
+        player.getInventory().setStack(button, itemStackInSlot);
+        ci.cancel();
       }
     }
   }
