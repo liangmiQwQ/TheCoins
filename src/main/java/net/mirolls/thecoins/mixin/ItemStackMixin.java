@@ -2,6 +2,8 @@ package net.mirolls.thecoins.mixin;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -18,6 +20,13 @@ public class ItemStackMixin {
   public void use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
     if (Menu.isMenu((ItemStack) (Object) this)) {
       SKBMenu.open(user);
+    }
+  }
+
+  @Inject(method = "useOnBlock", at = @At("HEAD"))
+  public void useOnBlock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
+    if (Menu.isMenu((ItemStack) (Object) this)) {
+      SKBMenu.open(context.getPlayer());
     }
   }
 }
