@@ -3,8 +3,11 @@ package net.mirolls.thecoins.gui;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
@@ -17,20 +20,21 @@ public class SKBMenu implements NamedScreenHandlerFactory {
 
   private final Translation translation;
   private final PlayerEntity player;
+  private final SimpleInventory GUI;
 
   public SKBMenu(PlayerEntity player) {
     this.player = player;
     this.translation = new Translation(LanguageConfig.getPlayerLanguage(player.getUuidAsString()));
+    this.GUI = createGUI();
   }
 
   public SKBMenu(PlayerEntity player, Translation translation) {
     this.player = player;
     this.translation = translation;
+    this.GUI = createGUI();
   }
 
-
   public static void open(PlayerEntity player) {
-
     String playerUUID = player.getUuidAsString();
     Translation translationGUI = new Translation(LanguageConfig.getPlayerLanguage(playerUUID));
     CoolDown.ticksCoolDown(playerUUID, TICK, (long now) -> {
@@ -63,6 +67,10 @@ public class SKBMenu implements NamedScreenHandlerFactory {
     player.openHandledScreen(new SKBMenu(player, translation));
   }
 
+  private SimpleInventory createGUI() {
+    return new SimpleInventory(54);
+  }
+
   @Override
   public Text getDisplayName() {
     return Text.literal(this.translation.getTranslation("menu"));
@@ -71,6 +79,7 @@ public class SKBMenu implements NamedScreenHandlerFactory {
   @Nullable
   @Override
   public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-    return null;
+    return new GenericContainerScreenHandler(ScreenHandlerType.GENERIC_9X6, syncId, playerInventory, GUI, 6);
   }
+
 }

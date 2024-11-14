@@ -3,6 +3,7 @@ package net.mirolls.thecoins.libs;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.file.Translation;
 
 import java.util.HashMap;
@@ -45,8 +46,10 @@ public class CoolDown {
         long needToWaitTime = coolDownTime - (now - lastActionTime.get(playerUUID));
 
         // get translation
+        String commandCoolDownRawString = translation.getTranslation("commandCoolDown");
+        TheCoins.LOGGER.info(commandCoolDownRawString);
         player.sendMessage(Text.literal(
-            translation.getTranslation("commandCoolDown").replace("${}", String.format("%.1f", (float) needToWaitTime / 1000))
+            commandCoolDownRawString.replace("${}", String.format("%.1f", (float) needToWaitTime / 1000))
         ).setStyle(Style.EMPTY.withColor(MinecraftColor.hexToRgb("#FF0000"))));
       }
     } else {
@@ -65,8 +68,9 @@ public class CoolDown {
         long needToWaitTime = coolDownTime - (now - lastActionTime.get(playerUUID));
 
         // get translation
+        String commandCoolDownRawString = translation.getTranslation("commandCoolDown");
         player.sendMessage(Text.literal(
-            translation.getTranslation("commandCoolDown").replace("${}", String.format("%.1f", (float) needToWaitTime / 1000))
+            commandCoolDownRawString.replace("${}", String.format("%.1f", (float) needToWaitTime / 1000))
         ).setStyle(Style.EMPTY.withColor(MinecraftColor.hexToRgb("#FF0000"))));
       }
     } else {

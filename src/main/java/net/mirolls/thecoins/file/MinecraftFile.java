@@ -43,6 +43,11 @@ public class MinecraftFile {
     }
   }
 
+  public static void removeFile(String dirPath, String filename) {
+    File fileFile = new File(new File(new File("."), dirPath), filename);
+    fileFile.delete();
+  }
+
   public static boolean isFileExists(String dirPath, String filename) {
     File dirFile = new File(new File("."), dirPath);
     if (!dirFile.exists()) {

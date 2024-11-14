@@ -20,6 +20,19 @@ public class Translation {
     }
   }
 
+  public static void initTranslationAtFirst() {
+    if (MinecraftFile.isFileExists("skyblock", "zh_cn.json")) {
+      MinecraftFile.removeFile("skyblock", "zh_cn.json");
+    }
+
+    if (MinecraftFile.isFileExists("skyblock", "en_us.json")) {
+      MinecraftFile.removeFile("skyblock", "en_us.json");
+    }
+
+    MinecraftFile.createFile("skyblock", "en_us.json");
+    MinecraftFile.createFile("skyblock", "zh_cn.json");
+  }
+
   public String getTranslation(String translateID) {
     initTranslation();
 

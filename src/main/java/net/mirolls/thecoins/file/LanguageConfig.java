@@ -12,6 +12,13 @@ public class LanguageConfig {
     }
   }
 
+  public static void initLanguageConfigFileAtFirst() {
+    if (MinecraftFile.isFileExists("skyblock", "language.json")) {
+      MinecraftFile.removeFile("skyblock", "language.json");
+    }
+    MinecraftFile.createFile("skyblock", "language.json");
+  }
+
   public static String getPlayerLanguage(String playerUUID) {
     initLanguageConfigFile();
     HashMap<String, String> playerLanguageMap = MinecraftFile.getJSON("skyblock", "language.json");
