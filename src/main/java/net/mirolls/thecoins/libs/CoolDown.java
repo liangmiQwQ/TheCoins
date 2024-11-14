@@ -28,11 +28,11 @@ public class CoolDown {
     long now = System.currentTimeMillis();
     if (lastTickTime.containsKey(playerUUID)) {
       if (now - lastTickTime.get(playerUUID) > tick) {
-        coolDownCallbackLoop.callback(player, playerUUID, now);
+        coolDownCallbackLoop.callback(playerUUID, now);
       }
       // else: don't do anything
     } else {
-      coolDownCallbackLoop.callback(player, playerUUID, now);
+      coolDownCallbackLoop.callback(playerUUID, now);
     }
   }
 

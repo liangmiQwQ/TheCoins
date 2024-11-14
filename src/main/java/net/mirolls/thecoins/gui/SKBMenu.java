@@ -11,8 +11,8 @@ public class SKBMenu {
 
 
   public static void open(PlayerEntity player) {
-    CoolDown.ticksCoolDown(player, TICK, (PlayerEntity playerEntity, String playerUUID, long now) -> {
-      CoolDown.commandCoolDown(playerEntity, COOL_DOWN_TIME, playerUUID, now, () -> {
+    CoolDown.ticksCoolDown(player, TICK, (String playerUUID, long now) -> {
+      CoolDown.commandCoolDown(player, COOL_DOWN_TIME, playerUUID, now, () -> {
         openGUI(player);
       });
     });
@@ -20,8 +20,8 @@ public class SKBMenu {
 
   public static void open(LivingEntity entity) {
     if (entity.isPlayer()) {
-      CoolDown.ticksCoolDown((PlayerEntity) entity, TICK, (PlayerEntity playerEntity, String playerUUID, long now) -> {
-        CoolDown.commandCoolDown(playerEntity, COOL_DOWN_TIME, playerUUID, now, () -> {
+      CoolDown.ticksCoolDown((PlayerEntity) entity, TICK, (String playerUUID, long now) -> {
+        CoolDown.commandCoolDown((PlayerEntity) entity, COOL_DOWN_TIME, playerUUID, now, () -> {
           openGUI((PlayerEntity) entity);
         });
       });
