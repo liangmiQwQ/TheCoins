@@ -2,27 +2,51 @@ package net.mirolls.thecoins.gui;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
+import net.mirolls.thecoins.file.LanguageConfig;
+import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.libs.CoolDown;
+import org.jetbrains.annotations.Nullable;
 
-public class SKBMenu {
+public class SKBMenu implements NamedScreenHandlerFactory {
   private static final long COOL_DOWN_TIME = 3000;
   private static final long TICK = 200;
 
+  private final Translation translation;
+  private final PlayerEntity player;
+
+  public SKBMenu(PlayerEntity player) {
+    this.player = player;
+    this.translation = new Translation(LanguageConfig.getPlayerLanguage(player.getUuidAsString()));
+  }
+
+  public SKBMenu(PlayerEntity player, Translation translation) {
+    this.player = player;
+    this.translation = translation;
+  }
+
 
   public static void open(PlayerEntity player) {
-    CoolDown.ticksCoolDown(player, TICK, (String playerUUID, long now) -> {
-      CoolDown.commandCoolDown(player, COOL_DOWN_TIME, playerUUID, now, () -> {
-        openGUI(player);
+
+    String playerUUID = player.getUuidAsString();
+    Translation translationGUI = new Translation(LanguageConfig.getPlayerLanguage(playerUUID));
+    CoolDown.ticksCoolDown(playerUUID, TICK, (long now) -> {
+      CoolDown.commandCoolDown(player, COOL_DOWN_TIME, playerUUID, now, translationGUI, (Translation translationEnd) -> {
+        openGUI(player, translationEnd);
       });
     });
   }
 
   public static void open(LivingEntity entity) {
     if (entity.isPlayer()) {
-      CoolDown.ticksCoolDown((PlayerEntity) entity, TICK, (String playerUUID, long now) -> {
-        CoolDown.commandCoolDown((PlayerEntity) entity, COOL_DOWN_TIME, playerUUID, now, () -> {
-          openGUI((PlayerEntity) entity);
+      String playerUUID = entity.getUuidAsString();
+      Translation translationGUI = new Translation(LanguageConfig.getPlayerLanguage(entity.getUuidAsString()));
+      CoolDown.ticksCoolDown(playerUUID, TICK, (long now) -> {
+        CoolDown.commandCoolDown((PlayerEntity) entity, COOL_DOWN_TIME, playerUUID, now, translationGUI, (Translation translationEnd) -> {
+          openGUI((PlayerEntity) entity, translationEnd);
         });
       });
     }
@@ -30,6 +54,23 @@ public class SKBMenu {
   }
 
   private static void openGUI(PlayerEntity player) {
-    player.sendMessage(Text.literal("The GUI is not release now."));
+//    player.sendMessage(Text.literal("The GUI is not release now."));
+    player.openHandledScreen(new SKBMenu(player));
+  }
+
+  private static void openGUI(PlayerEntity player, Translation translation) {
+//    player.sendMessage(Text.literal("The GUI is not release now."));
+    player.openHandledScreen(new SKBMenu(player, translation));
+  }
+
+  @Override
+  public Text getDisplayName() {
+    return Text.literal(this.translation.getTranslation("menu"));
+  }
+
+  @Nullable
+  @Override
+  public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+    return null;
   }
 }
