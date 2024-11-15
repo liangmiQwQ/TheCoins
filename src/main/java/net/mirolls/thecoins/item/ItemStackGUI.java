@@ -50,18 +50,22 @@ public class ItemStackGUI {
                 MinecraftColor.hexToRgb(hexTitleColor)
             ))).setCount(0);
 
-    NbtList loreList = new NbtList();
-    loreList.add(NbtString.of(
-        Text.Serialization.toJsonString(
-            Text.literal(
-                    translation.getTranslation(loreTranslationID))
-                .setStyle(
-                    Style.EMPTY.withColor(
-                        MinecraftColor.hexToRgb(
-                            "#AAAAAA"))))));
-
     NbtCompound displayTag = itemStack.getOrCreateSubNbt("display");
-    displayTag.put("Lore", loreList);
+
+    if (loreTranslationID != null) {
+      NbtList loreList = new NbtList();
+      loreList.add(NbtString.of(
+          Text.Serialization.toJsonString(
+              Text.literal(
+                      translation.getTranslation(loreTranslationID))
+                  .setStyle(
+                      Style.EMPTY.withColor(
+                          MinecraftColor.hexToRgb(
+                              "#AAAAAA"))))));
+
+      displayTag.put("Lore", loreList);
+    }
+
     displayTag.put("SpecialItemID", NbtString.of(GUI_ID + "_#&*&#_" + itemStackActionType));
     displayTag.put("SpecialItemClickedAction", NbtString.of(clickedAction)); // use JSON to parse
 
