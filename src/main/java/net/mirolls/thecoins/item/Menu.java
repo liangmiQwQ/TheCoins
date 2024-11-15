@@ -1,4 +1,4 @@
-package net.mirolls.thecoins.menu;
+package net.mirolls.thecoins.item;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;

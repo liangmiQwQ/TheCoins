@@ -7,7 +7,7 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.collection.DefaultedList;
 import net.mirolls.thecoins.gui.SKBMenu;
-import net.mirolls.thecoins.menu.Menu;
+import net.mirolls.thecoins.item.Menu;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

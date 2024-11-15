@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.mirolls.thecoins.TheCoins;
-import net.mirolls.thecoins.menu.Menu;
+import net.mirolls.thecoins.item.Menu;
 
 public class MenuHandle {
   public static void menuGive() {
