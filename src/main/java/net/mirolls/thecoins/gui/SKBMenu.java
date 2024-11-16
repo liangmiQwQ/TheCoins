@@ -1,5 +1,7 @@
 package net.mirolls.thecoins.gui;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -16,6 +18,7 @@ import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.gui.screenHandles.SKBMenuScreenHandle;
 import net.mirolls.thecoins.item.ItemStackGUI;
 import net.mirolls.thecoins.libs.CoolDown;
+import net.mirolls.thecoins.libs.SpecialItemClickedAction;
 import org.jetbrains.annotations.Nullable;
 
 public class SKBMenu implements NamedScreenHandlerFactory {
@@ -64,12 +67,10 @@ public class SKBMenu implements NamedScreenHandlerFactory {
   }
 
   private static void openGUI(PlayerEntity player) {
-//    player.sendMessage(Text.literal("The GUI is not release now."));
     player.openHandledScreen(new SKBMenu(player));
   }
 
   private static void openGUI(PlayerEntity player, Translation translation) {
-//    player.sendMessage(Text.literal("The GUI is not release now."));
     if (!player.getWorld().isClient) {
       ((ServerPlayerEntity) player).closeHandledScreen();
       player.openHandledScreen(new SKBMenu(player, translation));
@@ -79,17 +80,25 @@ public class SKBMenu implements NamedScreenHandlerFactory {
 
   private SimpleInventory createGUI() {
     SimpleInventory inventoryGUI = new SimpleInventory(54);
-    ItemStack closeButton = ItemStackGUI.itemStackFactory(
-        GUI_ID,
-        Items.BARRIER,
-        "GUIClose",
-        "#C35E12",
-        null,
-        "{}",
-        "Close",
-        translation
-    );
+
+    ItemStack closeButton;
+    try {
+      closeButton = ItemStackGUI.itemStackFactory(
+          GUI_ID,
+          Items.BARRIER,
+          "GUIClose",
+          "#C35E12",
+          null,
+          new ObjectMapper().writeValueAsString(new SpecialItemClickedAction("Close", "")),
+          "Close",
+          translation
+      );
+    } catch (JsonProcessingException e) {
+      TheCoins.LOGGER.error("Cannot make button CloseButton");
+      throw new RuntimeException(e);
+    }
     TheCoins.LOGGER.info("CloseButton: " + closeButton);
+
     inventoryGUI.setStack(49, closeButton);
     return inventoryGUI;
   }

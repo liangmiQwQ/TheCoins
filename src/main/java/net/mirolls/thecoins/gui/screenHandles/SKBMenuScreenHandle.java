@@ -43,4 +43,8 @@ public class SKBMenuScreenHandle extends ScreenHandler {
   public boolean canUse(PlayerEntity player) {
     return true;
   }
+
+  public String getGUI_ID() {
+    return GUI_ID;
+  }
 }

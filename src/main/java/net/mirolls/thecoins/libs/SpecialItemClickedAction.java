@@ -1,10 +1,13 @@
 package net.mirolls.thecoins.libs;
 
 public class SpecialItemClickedAction {
-
   private String actionType;
-
   private String actionFunction;
+
+  public SpecialItemClickedAction(String actionType, String actionFunction) {
+    this.actionType = actionType;
+    this.actionFunction = actionFunction;
+  }
 
   public String getActionFunction() {
     return actionFunction;
