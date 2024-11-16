@@ -32,7 +32,21 @@ public class SKBMenuScreenHandle extends ScreenHandler {
         this.addSlot(new Slot(inventory, j + i * 9, 62 + j * 18, 17 + i * 18));
       }
     }
-    // don't do anything because we need to remove player's inventory
+
+    int i = (6 - 4) * 18;
+
+    int j;
+    int k;
+
+    for (j = 0; j < 3; ++j) {
+      for (k = 0; k < 9; ++k) {
+        this.addSlot(new Slot(playerInventory, k + j * 9 + 9, 8 + k * 18, 103 + j * 18 + i));
+      }
+    }
+
+    for (j = 0; j < 9; ++j) {
+      this.addSlot(new Slot(playerInventory, j, 8 + j * 18, 161 + i));
+    }
   }
 
   public SKBMenuScreenHandle(int syncId, PlayerInventory playerInventory) {
