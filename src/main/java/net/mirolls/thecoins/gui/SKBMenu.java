@@ -4,16 +4,16 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
+import net.mirolls.thecoins.gui.screenHandles.SKBMenuScreenHandle;
 import net.mirolls.thecoins.item.ItemStackGUI;
 import net.mirolls.thecoins.libs.CoolDown;
 import org.jetbrains.annotations.Nullable;
@@ -79,7 +79,7 @@ public class SKBMenu implements NamedScreenHandlerFactory {
 
   private SimpleInventory createGUI() {
     SimpleInventory inventoryGUI = new SimpleInventory(54);
-    inventoryGUI.setStack(50, ItemStackGUI.itemStackFactory(
+    ItemStack closeButton = ItemStackGUI.itemStackFactory(
         GUI_ID,
         Items.BARRIER,
         "GUIClose",
@@ -87,8 +87,10 @@ public class SKBMenu implements NamedScreenHandlerFactory {
         null,
         "{}",
         "Close",
-        translation)
+        translation
     );
+    TheCoins.LOGGER.info("CloseButton: " + closeButton);
+    inventoryGUI.setStack(49, closeButton);
     return inventoryGUI;
   }
 
@@ -100,7 +102,8 @@ public class SKBMenu implements NamedScreenHandlerFactory {
   @Nullable
   @Override
   public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-    return new GenericContainerScreenHandler(ScreenHandlerType.GENERIC_9X6, syncId, playerInventory, GUI, 6);
+//    return new GenericContainerScreenHandler(ScreenHandlerType.GENERIC_9X6, syncId, playerInventory, GUI, 6);
+    return new SKBMenuScreenHandle(syncId, GUI, GUI_ID);
   }
 
 }
