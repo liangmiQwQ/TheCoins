@@ -18,6 +18,7 @@ import net.mirolls.thecoins.libs.MinecraftColor;
 import net.mirolls.thecoins.libs.SpecialItemClickedAction;
 
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 public class ItemStackGUI {
   private static final HashMap<String, ItemStackGUICallBack> registeredActions = new HashMap<>();
@@ -27,8 +28,9 @@ public class ItemStackGUI {
       NbtCompound nbt = itemStack.getNbt();
       if (nbt != null && nbt.contains("display", 10)) {  // 检查 "display" 是否存在，且是一个 compound
         NbtCompound displayTag = nbt.getCompound("display");
-        if (displayTag.contains("SpecialItemID", 8) && displayTag.contains("SpecialItemClickedAction", 8)) {  // 检查 "SpecialItemID" 是否存在，且是一个字符串类型{ // 检查 "SpecialItemClickedAction" 是否存在，并且是一个字符串类型
-          String actionTypeAtNBT = displayTag.getString("SpecialItemID").split("_#&*&#_")[1];
+        if (displayTag.contains("SpecialItemID", 8) && displayTag.contains("SpecialItemClickedAction", 8)) {
+          // 检查 "SpecialItemID" 是否存在，且是一个字符串类型{ // 检查 "SpecialItemClickedAction" 是否存在，并且是一个字符串类型
+          String actionTypeAtNBT = displayTag.getString("SpecialItemID").split(Pattern.quote("_#&*&#_"))[1];
           String clickedActionJSON = displayTag.getString("SpecialItemClickedAction");
 
 

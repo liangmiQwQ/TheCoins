@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.mirolls.thecoins.event.MenuHandle;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
+import net.mirolls.thecoins.gui.screenHandles.SKBMenuScreenHandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,5 +25,8 @@ public class TheCoins implements ModInitializer {
     // init config files
     LanguageConfig.initLanguageConfigFileAtFirst();
     Translation.initTranslationAtFirst();
+
+    // registry GUI
+    SKBMenuScreenHandle.registerScreenHandlers();
   }
 }

@@ -22,11 +22,9 @@ import net.mirolls.thecoins.libs.SpecialItemClickedAction;
 import org.jetbrains.annotations.Nullable;
 
 public class SKBMenu implements NamedScreenHandlerFactory {
+  public static final String GUI_ID = "PlayerPersonalMenu";
   private static final long COOL_DOWN_TIME = 3000;
   private static final long TICK = 200;
-
-  private static final String GUI_ID = "PlayerPersonalMenu";
-
   private final Translation translation;
   private final PlayerEntity player;
   private final SimpleInventory GUI;
@@ -112,7 +110,7 @@ public class SKBMenu implements NamedScreenHandlerFactory {
   @Override
   public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
 //    return new GenericContainerScreenHandler(ScreenHandlerType.GENERIC_9X6, syncId, playerInventory, GUI, 6);
-    return new SKBMenuScreenHandle(syncId, GUI, GUI_ID);
+    return new SKBMenuScreenHandle(syncId, GUI, playerInventory);
   }
 
 }
