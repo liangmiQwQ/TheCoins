@@ -21,6 +21,8 @@ import net.mirolls.thecoins.libs.CoolDown;
 import net.mirolls.thecoins.libs.SpecialItemClickedAction;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public class SKBMenu implements NamedScreenHandlerFactory {
   public static final String GUI_ID = "PlayerPersonalMenu";
   private static final long COOL_DOWN_TIME = 3000;
@@ -84,11 +86,12 @@ public class SKBMenu implements NamedScreenHandlerFactory {
       closeButton = ItemStackGUI.itemStackFactory(
           GUI_ID,
           Items.BARRIER,
-          "GUIClose",
+          translation.getTranslation("GUIClose"),
           "#C35E12",
-          null,
+          List.of(),
           new ObjectMapper().writeValueAsString(new SpecialItemClickedAction("Close", "")),
           "Close",
+          null,
           translation
       );
     } catch (JsonProcessingException e) {

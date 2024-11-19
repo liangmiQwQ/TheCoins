@@ -9,15 +9,16 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.mirolls.thecoins.TheCoins;
-import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.libs.MinecraftColor;
 import net.mirolls.thecoins.libs.SpecialItemClickedAction;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class ItemStackGUI {
@@ -82,56 +83,84 @@ public class ItemStackGUI {
     registeredActions.put(actionID, action);
   }
 
-  public static ItemStack itemStackFactory(String GUI_ID, ItemConvertible items, String nameTranslationID, String hexTitleColor, String loreTranslationID, String clickedAction, String itemStackActionType, PlayerEntity player) {
+  public static ItemStack itemStackFactory(
+      String GUI_ID,
+      ItemConvertible items,
+      String itemName,
+      String hexTitleColor,
+      List<String> itemLore,
+      String clickedAction,
+      String itemStackActionType,
+      NbtCompound itemOtherNBT,
+      Translation translation) {
+
+    Text itemNameText = Text.literal(itemName).setStyle(Style.EMPTY.withColor(MinecraftColor.hexToRgb(hexTitleColor)));
+
+    List<MutableText> itemLoreText = itemLore.stream().map(lore -> {
+      return Text.literal(
+          lore
+      ).setStyle(
+          Style.EMPTY.withColor(
+              MinecraftColor.hexToRgb(
+                  "#AAAAAA")));
+    }).toList();
+
     return itemStackFactoryWithTranslation(
         GUI_ID,
-        new Translation(LanguageConfig.getPlayerLanguage(player.getUuidAsString())),
         items,
-        nameTranslationID,
-        hexTitleColor,
-        loreTranslationID,
+        itemNameText,
+        itemLoreText,
         itemStackActionType,
+        itemOtherNBT,
         clickedAction
     );
   }
 
-  public static ItemStack itemStackFactory(String GUI_ID, ItemConvertible items, String nameTranslationID, String hexTitleColor, String loreTranslationID, String clickedAction, String itemStackActionType, Translation translation) {
+  public static ItemStack itemStackFactory(
+      String GUI_ID,
+      ItemConvertible items,
+      Text itemName,
+      List<MutableText> itemLore,
+      String clickedAction,
+      String itemStackActionType,
+      NbtCompound itemOtherNBT,
+      Translation translation
+  ) {
     return itemStackFactoryWithTranslation(
         GUI_ID,
-        translation,
         items,
-        nameTranslationID,
-        hexTitleColor,
-        loreTranslationID,
+        itemName,
+        itemLore,
         itemStackActionType,
+        itemOtherNBT,
         clickedAction
     );
   }
 
-  private static ItemStack itemStackFactoryWithTranslation(String GUI_ID, Translation translation, ItemConvertible items, String nameTranslationID, String hexTitleColor, String loreTranslationID, String itemStackActionType, String clickedAction) {
+  private static ItemStack itemStackFactoryWithTranslation(
+      String GUI_ID,
+      ItemConvertible items,
+      Text itemName,
+      List<MutableText> itemLore,
+      String itemStackActionType,
+      NbtCompound itemOtherNBT,
+      String clickedAction) {
     ItemStack itemStack = new ItemStack(items);
 
-    itemStack.setCustomName(
-        Text.literal(
-            translation.getTranslation(nameTranslationID)
-        ).setStyle(
-            Style.EMPTY.withColor(
-                MinecraftColor.hexToRgb(hexTitleColor)
-            ))).setCount(1);
+    itemStack.setNbt(itemOtherNBT);
+
+    itemStack.setCustomName(itemName).setCount(1);
 
     NbtCompound displayTag = itemStack.getOrCreateSubNbt("display");
 
-    if (loreTranslationID != null) {
+    if (itemLore != null && !itemLore.isEmpty()) {
       NbtList loreList = new NbtList();
-      loreList.add(NbtString.of(
-          Text.Serialization.toJsonString(
-              Text.literal(
-                      translation.getTranslation(loreTranslationID))
-                  .setStyle(
-                      Style.EMPTY.withColor(
-                          MinecraftColor.hexToRgb(
-                              "#AAAAAA"))))));
-
+      for (MutableText mutableText : itemLore) {
+        loreList.add(NbtString.of(
+            Text.Serialization.toJsonString(
+                mutableText
+            )));
+      }
       displayTag.put("Lore", loreList);
     }
 
