@@ -17,8 +17,11 @@ import net.mirolls.thecoins.gui.screenHandles.SKBMenuScreenHandle;
 import net.mirolls.thecoins.item.ItemStackGUI;
 import net.mirolls.thecoins.libs.CoolDown;
 import net.mirolls.thecoins.libs.SpecialItemClickedAction;
+import net.mirolls.thecoins.skyblock.Plugin;
+import net.mirolls.thecoins.skyblock.PluginsRegistry;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SKBMenu implements NamedScreenHandlerFactory {
@@ -100,9 +103,39 @@ public class SKBMenu implements NamedScreenHandlerFactory {
         "Background",
         null
     );
-    TheCoins.LOGGER.info("CloseButton: " + closeButton);
 
-    inventoryGUI.setStack(49, closeButton);
+    ArrayList<Plugin> pluginArrayList = PluginsRegistry.getRegisteredPlugins();
+    int numberOfButton = 0;
+    for (Plugin plugin : pluginArrayList) {
+      numberOfButton += plugin.getMenuItemStack().size();
+    }
+
+    for (Plugin plugin : pluginArrayList) {
+      if (plugin.getMenuItemStack().size() == plugin.getItemStackLocations().size()) {
+        for (int pluginButtonIndex = 0; pluginButtonIndex < plugin.getMenuItemStack().size(); pluginButtonIndex++) {
+          int buttonLocation = plugin.getItemStackLocations() //  ArrayList<PluginButtonLocation>
+              .get(pluginButtonIndex). // PluginButtonLocation
+                  getLocation(numberOfButton); // int
+          if (inventoryGUI.getStack(buttonLocation).isEmpty() || inventoryGUI.getStack(buttonLocation).getCount() == 0 || inventoryGUI.getStack(buttonLocation).getItem() == Items.AIR) {
+            // do not have button
+            inventoryGUI.setStack(buttonLocation,
+                plugin.getMenuItemStack().get(pluginButtonIndex).getItemStack(translation, this.player));
+            // set itemStack at last
+          }
+        }
+      }
+    }
+
+
+    for (int inventoryIndex = 0; inventoryIndex < 54; inventoryIndex++) {
+      if (inventoryIndex == 49) { // if close button
+        inventoryGUI.setStack(49, closeButton);
+      }
+      if (inventoryGUI.getStack(inventoryIndex).isEmpty() || inventoryGUI.getStack(inventoryIndex).getCount() == 0 || inventoryGUI.getStack(inventoryIndex).getItem() == Items.AIR) {
+        inventoryGUI.setStack(inventoryIndex, background);
+      }
+    }
+
     return inventoryGUI;
   }
 
