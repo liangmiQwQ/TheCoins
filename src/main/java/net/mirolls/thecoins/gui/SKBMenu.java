@@ -1,7 +1,5 @@
 package net.mirolls.thecoins.gui;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -82,22 +80,16 @@ public class SKBMenu implements NamedScreenHandlerFactory {
     SimpleInventory inventoryGUI = new SimpleInventory(54);
 
     ItemStack closeButton;
-    try {
-      closeButton = ItemStackGUI.itemStackFactory(
-          GUI_ID,
-          Items.BARRIER,
-          translation.getTranslation("GUIClose"),
-          "#C35E12",
-          List.of(),
-          new ObjectMapper().writeValueAsString(new SpecialItemClickedAction("Close", "")),
-          "Close",
-          null,
-          translation
-      );
-    } catch (JsonProcessingException e) {
-      TheCoins.LOGGER.error("Cannot make button CloseButton");
-      throw new RuntimeException(e);
-    }
+    closeButton = ItemStackGUI.itemStackFactory(
+        GUI_ID,
+        Items.BARRIER,
+        translation.getTranslation("GUIClose"),
+        "#C35E12",
+        List.of(),
+        new SpecialItemClickedAction("Close", ""),
+        "Close",
+        null
+    );
     TheCoins.LOGGER.info("CloseButton: " + closeButton);
 
     inventoryGUI.setStack(49, closeButton);

@@ -2,5 +2,6 @@
   "menu": "SkyBlock Menu",
   "menuDescription": "This item is the key to the SkyBlock world",
   "commandCoolDown": "The command is still cooling down for ${}s",
-  "GUIClose": "Close"
+  "GUIClose": "Close",
+  "SKBMenuHead": "${}' SkyBlock"
 }

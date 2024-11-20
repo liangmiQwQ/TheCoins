@@ -5,6 +5,7 @@ import net.mirolls.thecoins.event.MenuHandle;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.gui.screenHandles.SKBMenuScreenHandle;
+import net.mirolls.thecoins.skyblock.TheCoinsPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,5 +29,8 @@ public class TheCoins implements ModInitializer {
 
     // registry GUI
     SKBMenuScreenHandle.registerScreenHandlers();
+
+    // registry plugins
+    TheCoinsPlugin.registry(); // self-plugin
   }
 }

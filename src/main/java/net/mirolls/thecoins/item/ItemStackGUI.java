@@ -13,7 +13,6 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.mirolls.thecoins.TheCoins;
-import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.libs.MinecraftColor;
 import net.mirolls.thecoins.libs.SpecialItemClickedAction;
 
@@ -89,10 +88,10 @@ public class ItemStackGUI {
       String itemName,
       String hexTitleColor,
       List<String> itemLore,
-      String clickedAction,
+      SpecialItemClickedAction clickedAction,
       String itemStackActionType,
-      NbtCompound itemOtherNBT,
-      Translation translation) {
+      NbtCompound itemOtherNBT
+  ) {
 
     Text itemNameText = Text.literal(itemName).setStyle(Style.EMPTY.withColor(MinecraftColor.hexToRgb(hexTitleColor)));
 
@@ -121,10 +120,9 @@ public class ItemStackGUI {
       ItemConvertible items,
       Text itemName,
       List<MutableText> itemLore,
-      String clickedAction,
+      SpecialItemClickedAction clickedAction,
       String itemStackActionType,
-      NbtCompound itemOtherNBT,
-      Translation translation
+      NbtCompound itemOtherNBT
   ) {
     return itemStackFactoryWithTranslation(
         GUI_ID,
@@ -144,7 +142,7 @@ public class ItemStackGUI {
       List<MutableText> itemLore,
       String itemStackActionType,
       NbtCompound itemOtherNBT,
-      String clickedAction) {
+      SpecialItemClickedAction clickedAction) {
     ItemStack itemStack = new ItemStack(items);
 
     itemStack.setNbt(itemOtherNBT);
@@ -165,7 +163,14 @@ public class ItemStackGUI {
     }
 
     displayTag.put("SpecialItemID", NbtString.of(GUI_ID + "_#&*&#_" + itemStackActionType));
-    displayTag.put("SpecialItemClickedAction", NbtString.of(clickedAction)); // use JSON to parse
+
+
+    try {
+      displayTag.put("SpecialItemClickedAction", NbtString.of(new ObjectMapper().writeValueAsString(itemStackActionType))); // use JSON to parse
+    } catch (JsonProcessingException e) {
+      TheCoins.LOGGER.error("Cannot make button " + GUI_ID + "_#&*&#_");
+      throw new RuntimeException(e);
+    }
 
     return itemStack;
   }
