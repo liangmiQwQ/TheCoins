@@ -18,6 +18,7 @@ import net.mirolls.thecoins.libs.SpecialItemClickedAction;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class ItemStackGUI {
@@ -65,6 +66,8 @@ public class ItemStackGUI {
                 } else { // not empty
                   registeredActions.get(specialItemClickedAction.getActionFunction()).callback(player);
                 }  // type: function
+              }
+              case "Background" -> {
               }
               default ->
                   TheCoins.LOGGER.error("The type of the ItemStack " + itemStack + "is " + specialItemClickedAction.getActionType() + " is undefined");
@@ -151,6 +154,10 @@ public class ItemStackGUI {
 
     NbtCompound displayTag = itemStack.getOrCreateSubNbt("display");
 
+    if (Objects.equals(itemStackActionType, "Background") && Objects.equals(clickedAction.getActionType(), "Background")) {
+      displayTag.putInt("HideFlags", 127);
+    }
+
     if (itemLore != null && !itemLore.isEmpty()) {
       NbtList loreList = new NbtList();
       for (MutableText mutableText : itemLore) {
@@ -166,11 +173,12 @@ public class ItemStackGUI {
 
 
     try {
-      displayTag.put("SpecialItemClickedAction", NbtString.of(new ObjectMapper().writeValueAsString(itemStackActionType))); // use JSON to parse
+      displayTag.put("SpecialItemClickedAction", NbtString.of(new ObjectMapper().writeValueAsString(clickedAction))); // use JSON to parse
     } catch (JsonProcessingException e) {
       TheCoins.LOGGER.error("Cannot make button " + GUI_ID + "_#&*&#_");
       throw new RuntimeException(e);
     }
+
 
     return itemStack;
   }

@@ -79,8 +79,7 @@ public class SKBMenu implements NamedScreenHandlerFactory {
   private SimpleInventory createGUI() {
     SimpleInventory inventoryGUI = new SimpleInventory(54);
 
-    ItemStack closeButton;
-    closeButton = ItemStackGUI.itemStackFactory(
+    ItemStack closeButton = ItemStackGUI.itemStackFactory(
         GUI_ID,
         Items.BARRIER,
         translation.getTranslation("GUIClose"),
@@ -88,6 +87,17 @@ public class SKBMenu implements NamedScreenHandlerFactory {
         List.of(),
         new SpecialItemClickedAction("Close", ""),
         "Close",
+        null
+    );
+
+    ItemStack background = ItemStackGUI.itemStackFactory(
+        GUI_ID,
+        Items.BLACK_STAINED_GLASS_PANE,
+        "",
+        "",
+        List.of(),
+        new SpecialItemClickedAction("Background", ""),
+        "Background",
         null
     );
     TheCoins.LOGGER.info("CloseButton: " + closeButton);
