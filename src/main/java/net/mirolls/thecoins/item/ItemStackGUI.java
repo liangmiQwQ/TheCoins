@@ -96,18 +96,23 @@ public class ItemStackGUI {
       NbtCompound itemOtherNBT
   ) {
 
-    Text itemNameText = Text.literal(itemName).setStyle(Style.EMPTY.withColor(MinecraftColor.hexToRgb(hexTitleColor)));
 
-    List<MutableText> itemLoreText = itemLore.stream().map(lore -> {
-      return Text.literal(
-          lore
-      ).setStyle(
-          Style.EMPTY.withColor(
-              MinecraftColor.hexToRgb(
-                  "#AAAAAA")));
-    }).toList();
+    Text itemNameText;
+    if (!hexTitleColor.isEmpty()) {
+      itemNameText = Text.literal(itemName).setStyle(Style.EMPTY.withColor(MinecraftColor.hexToRgb(hexTitleColor)));
 
-    return itemStackFactoryWithTranslation(
+    } else {
+      itemNameText = Text.literal(itemName);
+    }
+
+    List<MutableText> itemLoreText = itemLore.stream().map(lore -> Text.literal(
+        lore
+    ).setStyle(
+        Style.EMPTY.withColor(
+            MinecraftColor.hexToRgb(
+                "#AAAAAA")))).toList();
+
+    return itemStackFactoryTexted(
         GUI_ID,
         items,
         itemNameText,
@@ -127,7 +132,7 @@ public class ItemStackGUI {
       String itemStackActionType,
       NbtCompound itemOtherNBT
   ) {
-    return itemStackFactoryWithTranslation(
+    return itemStackFactoryTexted(
         GUI_ID,
         items,
         itemName,
@@ -138,7 +143,7 @@ public class ItemStackGUI {
     );
   }
 
-  private static ItemStack itemStackFactoryWithTranslation(
+  private static ItemStack itemStackFactoryTexted(
       String GUI_ID,
       ItemConvertible items,
       Text itemName,
