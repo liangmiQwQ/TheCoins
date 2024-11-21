@@ -3,5 +3,9 @@
   "menuDescription": "This item is the key to the SkyBlock world",
   "commandCoolDown": "The command is still cooling down for ${}s",
   "GUIClose": "Close",
-  "SKBMenuHead": "${}' SkyBlock"
+  "SKBMenuHead": "${}' SkyBlock",
+  "CraftingTable": "Crafting Table",
+  "CraftingTableLore": "Open the crafting grid",
+  "EnderChest": "Ender Chest",
+  "EnderChestLore": "Store global items that you wan to access at any time from anywhere here."
 }
