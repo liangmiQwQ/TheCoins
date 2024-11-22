@@ -1,6 +1,7 @@
 package net.mirolls.thecoins.skyblock;
 
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
@@ -30,7 +31,6 @@ public class TheCoinsPlugin {
     });
     ItemStackGUI.registryAction("openEnderChest", player -> {
       if (!player.getWorld().isClient) {
-        player.getEnderChestInventory();
         player.openHandledScreen(new SimpleNamedScreenHandlerFactory(
             (syncId, playerInventory, playerEntity) -> new GenericContainerScreenHandler(
                 ScreenHandlerType.GENERIC_9X3,
@@ -50,21 +50,21 @@ public class TheCoinsPlugin {
         trulyTranslation = Objects.requireNonNullElseGet(translation, () -> new Translation(LanguageConfig.getPlayerLanguage(player.getUuidAsString())));
 
         if (player != null) {
+          NbtCompound playerHeadNBT = new NbtCompound();
+          playerHeadNBT.putString("SkullOwner", player.getName().getString());
           return ItemStackGUI.itemStackFactory(
               SKBMenu.GUI_ID,
               Items.PLAYER_HEAD,
               trulyTranslation.getTranslation("SKBMenuHead").replace("${}", player.getName().getString()),
               "#23FF07",
-              List.of("1"),
+              StringChanger.splittingString(translation.getTranslation("SKBMenuHeadLore")),
               new SpecialItemClickedAction("Link", ""),
               "Link",
-              null
-
+              playerHeadNBT
           );
         } else {
           throw new NullPointerException("Getting null when registry TheCoins plugin");
         }
-
       });
 
       pluginButtonLocations.add(numberOfButton -> 13);
