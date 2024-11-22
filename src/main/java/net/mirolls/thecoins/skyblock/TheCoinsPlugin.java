@@ -133,6 +133,6 @@ public class TheCoinsPlugin {
       });
     }
 
-    PluginsRegistry.registry(new Plugin(pluginItemStacks, pluginButtonLocations));
+    PluginsRegistry.registry(new Plugin(pluginItemStacks, pluginButtonLocations), "TheCoins");
   }
 }
