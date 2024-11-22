@@ -1,6 +1,7 @@
 package net.mirolls.thecoins.skyblock;
 
 import net.minecraft.item.Items;
+import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.text.Text;
@@ -29,9 +30,14 @@ public class TheCoinsPlugin {
     });
     ItemStackGUI.registryAction("openEnderChest", player -> {
       if (!player.getWorld().isClient) {
+        player.getEnderChestInventory();
         player.openHandledScreen(new SimpleNamedScreenHandlerFactory(
-            (syncId, playerInventory, playerEntity) -> ScreenHandlerType.CRAFTING.create(syncId, playerInventory),
-            Text.translatable("container.crafting")
+            (syncId, playerInventory, playerEntity) -> new GenericContainerScreenHandler(
+                ScreenHandlerType.GENERIC_9X3,
+                syncId, playerInventory,
+                playerEntity.getEnderChestInventory(), 3
+            ),
+            Text.translatable("container.enderchest")
         ));
       }
     });
