@@ -43,6 +43,14 @@ public class MinecraftFile {
     }
   }
 
+  public static void makeDir(String dirPath) {
+    File dirPathFile = new File(new File("."), dirPath);
+
+    if (!dirPathFile.exists() && !dirPathFile.mkdirs()) {
+      TheCoins.LOGGER.error("Can't create folder to save the config file.");
+    }
+  }
+
   public static void removeFile(String dirPath, String filename) {
     File fileFile = new File(new File(new File("."), dirPath), filename);
     fileFile.delete();
@@ -55,6 +63,11 @@ public class MinecraftFile {
     }
     File fileFile = new File(dirFile, filename);
     return fileFile.exists();
+  }
+
+  public static boolean isDirPathExits(String dirPath) {
+    File dirFile = new File(new File("."), dirPath);
+    return dirFile.exists();
   }
 
   public static HashMap<String, String> getJSON(String dirPath, String filename) {
