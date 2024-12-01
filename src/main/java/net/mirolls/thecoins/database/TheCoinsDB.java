@@ -1,9 +1,7 @@
 package net.mirolls.thecoins.database;
 
 import net.mirolls.thecoins.libs.SQLExecutor;
-
-import java.util.HashMap;
-import java.util.UUID;
+import net.mirolls.thecoins.skyblock.Profile;
 
 public class TheCoinsDB {
   static final String PROFILE_TABLE_NAME = "playerProfile";
@@ -20,16 +18,7 @@ public class TheCoinsDB {
   }
   // coins表就不需要了 因为profile里已经包含了coins信息
 
-  public static void createProfileForPlayer() {
-    HashMap<String, Object> data = new HashMap<>();
-
-    data.put("profileID", UUID.randomUUID().toString());
-    data.put("profileName", "");
-    data.put("playerUUID", "");
-    data.put("coins", "");
-    data.put("enderChestInventory", "");
-    data.put("inventory", "");
-
-    SQLExecutor.insert(PROFILE_TABLE_NAME, data, SkyBlockDB.connection);
+  public static void createProfileForPlayer(Profile playerProfile) {
+    SQLExecutor.insert(PROFILE_TABLE_NAME, playerProfile.asHashMap(), SkyBlockDB.connection);
   }
 }
