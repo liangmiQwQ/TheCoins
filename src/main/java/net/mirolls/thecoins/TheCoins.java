@@ -1,6 +1,7 @@
 package net.mirolls.thecoins;
 
 import net.fabricmc.api.ModInitializer;
+import net.mirolls.thecoins.database.SkyBlockDB;
 import net.mirolls.thecoins.event.MenuHandle;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
@@ -32,5 +33,6 @@ public class TheCoins implements ModInitializer {
 
     // registry plugins
     TheCoinsPlugin.registry(); // self-plugin
+    SkyBlockDB.initSQLite();
   }
 }
