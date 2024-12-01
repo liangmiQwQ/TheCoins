@@ -2,7 +2,9 @@ package net.mirolls.thecoins;
 
 import net.fabricmc.api.ModInitializer;
 import net.mirolls.thecoins.database.SkyBlockDB;
+import net.mirolls.thecoins.database.TheCoinsDB;
 import net.mirolls.thecoins.event.MenuHandle;
+import net.mirolls.thecoins.event.ProfileHandle;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.gui.screenHandles.SKBMenuScreenHandle;
@@ -21,8 +23,20 @@ public class TheCoins implements ModInitializer {
   @Override
   public void onInitialize() {
     LOGGER.info("The Coins mod is running");
+
+    // init database
+    SkyBlockDB.initSQLite();
+
+    // init theCoins table
+    TheCoinsDB.createPlayerProfileTable();
+
+
+    // init MenuHandle
     MenuHandle.menuGive();
     MenuHandle.menuRemover();
+
+    // init ProfileHandle
+    ProfileHandle.firstProfileCreator();
 
     // init config files
     LanguageConfig.initLanguageConfigFileAtFirst();
@@ -33,6 +47,5 @@ public class TheCoins implements ModInitializer {
 
     // registry plugins
     TheCoinsPlugin.registry(); // self-plugin
-    SkyBlockDB.initSQLite();
   }
 }

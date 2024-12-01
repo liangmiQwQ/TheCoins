@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SkyBlockDB {
-  private static Connection connection;
-  private static ArrayList<TableCreateSQL> tablesBeforeInit;
+  private static final ArrayList<TableCreateSQL> tablesBeforeInit = new ArrayList<>();
+  public static Connection connection;
 
   public static void initSQLite() {
     if (!MinecraftFile.isFileExists("skyblock", "SkyBlock.db")) {
@@ -23,6 +23,7 @@ public class SkyBlockDB {
           PreparedStatement preparedStatement = connection.prepareStatement(tableBeforeInit.getCreateSQL());
           preparedStatement.setString(1, tableBeforeInit.getTableName());
           preparedStatement.execute();
+          preparedStatement.close();
         }
         // 创建链接
       } catch (SQLException e) {
@@ -33,10 +34,10 @@ public class SkyBlockDB {
 
   public static void createTable(String tableName, DBKey[] dbKeys) {
     StringBuilder SQL =
-        new StringBuilder("CREATE TABLE IF NOT EXISTS ? (" + "id INTEGER PRIMARY KEY AUTOINCREMENT");
+        new StringBuilder("CREATE TABLE IF NOT EXISTS ? (" + "`id` INTEGER PRIMARY KEY AUTOINCREMENT");
 
     for (DBKey dbKey : dbKeys) {
-      SQL.append(", ").append(dbKey.getName()).append(" ").append(dbKey.getType()).append(dbKey.isNotNull() ? " NOT NULL" : "");
+      SQL.append(", `").append(dbKey.getName()).append("` ").append(dbKey.getType().toUpperCase()).append(dbKey.isNotNull() ? " NOT NULL" : "");
     }
     SQL.append(")");
 
@@ -45,6 +46,7 @@ public class SkyBlockDB {
         PreparedStatement preparedStatement = connection.prepareStatement(SQL.toString());
         preparedStatement.setString(1, tableName);
         preparedStatement.execute();
+        preparedStatement.close();
 
       } catch (SQLException e) {
         TheCoins.LOGGER.error("Cannot to create table " + tableName + " because " + e);
@@ -56,7 +58,6 @@ public class SkyBlockDB {
     }
   }
 }
-
 
 class TableCreateSQL {
   private String createSQL;
