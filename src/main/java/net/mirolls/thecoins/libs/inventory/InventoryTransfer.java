@@ -3,6 +3,7 @@ package net.mirolls.thecoins.libs.inventory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.EnderChestInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.registry.Registries;
@@ -34,8 +35,18 @@ public class InventoryTransfer {
     }
   }
 
-//  public static String enderChestInventoryAsJSON(EnderChestInventory inventory) {
-//  }
+  public static String enderChestInventoryAsJSON(EnderChestInventory inventory) {
+    HashMap<Integer, InventoryItems> mainItemsMap = (HashMap<Integer, InventoryItems>) serializeItemStackList(inventory.heldStacks);
+
+    // 这里就不选择创建一个单独的类了 因为没有必要
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+      return objectMapper.writeValueAsString(mainItemsMap);
+    } catch (JsonProcessingException e) {
+      TheCoins.LOGGER.error("Cannot encode the player inventory from NBT tags");
+      throw new RuntimeException(e);
+    }
+  }
 
   // 通用方法: 序列化 DefaultedList<ItemStack> 为 Map
   private static Map<Integer, InventoryItems> serializeItemStackList(DefaultedList<ItemStack> itemList) {
