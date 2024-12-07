@@ -2,12 +2,18 @@ package net.mirolls.thecoins.skyblock;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.mirolls.thecoins.libs.RandomCharacterPicker;
+import net.mirolls.thecoins.libs.inventory.InventoryTransfer;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-public record Profile(String profileID, String profileName, String playerUUID, double coins, String enderChestInventory,
-                      String inventory, boolean playing) {
+public record Profile(
+    String profileID,
+    String profileName,
+    String playerUUID,
+    double coins,
+    String enderChestInventory,
+    String inventory, boolean playing) {
   // each player has to have at least one profile. different players can have the same profile(coop)
 
   public static Profile generateProfile(ServerPlayerEntity player, boolean playing) {
@@ -16,8 +22,8 @@ public record Profile(String profileID, String profileName, String playerUUID, d
         RandomCharacterPicker.getRandomCharacter(),
         player.getUuidAsString(),
         0.0,
-        "",
-        "",
+        InventoryTransfer.enderChestInventoryAsJSON(player.getEnderChestInventory()),
+        InventoryTransfer.playerInventoryAsJSON(player.getInventory()),
         playing
     );
   }

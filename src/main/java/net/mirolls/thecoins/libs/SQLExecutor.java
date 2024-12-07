@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class SQLExecutor {
   public static int insert(String tableName, HashMap<String, Object> keyAndValue, Connection connection) {
@@ -41,5 +42,27 @@ public class SQLExecutor {
       TheCoins.LOGGER.error("Cannot create profile for player because " + e);
       throw new RuntimeException(e);
     }
+  }
+
+  public static String selectSQL(String tableName, List<String> keys, Connection connection) {
+    StringBuilder SQL = new StringBuilder("SELECT ");
+    for (int i = 0; i < keys.size(); i++) {
+      SQL.append("`").append(keys.get(i)).append("`");
+      if (i < keys.size() - 1) {
+        SQL.append(", ");
+      }
+    }
+    return SQL.append(" FROM ").append(tableName).append(";").toString();
+  }
+
+  public static String selectSQL(String tableName, List<String> keys, Connection connection, String whereSQL) {
+    StringBuilder SQL = new StringBuilder("SELECT ");
+    for (int i = 0; i < keys.size(); i++) {
+      SQL.append("`").append(keys.get(i)).append("`");
+      if (i < keys.size() - 1) {
+        SQL.append(", ");
+      }
+    }
+    return SQL.append(" FROM ").append(tableName).append(" WHERE ").append(whereSQL).append(";").toString();
   }
 }
