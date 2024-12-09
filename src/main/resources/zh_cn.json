@@ -8,5 +8,7 @@
   "CraftingTable": "工作台",
   "CraftingTableLore": "打开工作台网格",
   "EnderChest": "末影箱",
-  "EnderChestLore": "存储你的全局物品 你可以在任何时候 任何地点进行访问"
+  "EnderChestLore": "存储你的全局物品 你可以在任何时候 任何地点进行访问",
+  "YouAreNowPlaying": "你现在正在游玩的是 ${} 存档",
+  "YourProfileID": "你的存档ID: ${}"
 }
