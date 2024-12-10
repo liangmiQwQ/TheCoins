@@ -37,6 +37,7 @@ public class TheCoins implements ModInitializer {
 
     // init ProfileHandle
     ProfileHandle.firstProfileCreator();
+    ProfileHandle.profileUpdater();
 
     // init config files
     LanguageConfig.initLanguageConfigFileAtFirst();

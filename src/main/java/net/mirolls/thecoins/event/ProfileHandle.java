@@ -1,5 +1,6 @@
 package net.mirolls.thecoins.event;
 
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -39,6 +40,20 @@ public class ProfileHandle {
               translation.getTranslation("YourProfileID").replace("${}", profile.profileID())
           ).setStyle(Style.EMPTY.withColor(MinecraftColor.hexToRgb("#AAAAAA")))
       );
+    });
+  }
+
+  public static void profileUpdater() {
+    // update players inventory data
+    // 死后 退游戏的时候
+    // disconnect
+    ServerPlayConnectionEvents.DISCONNECT.register(((handler, server) -> {
+
+    }));
+
+    // after spawn
+    ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
+
     });
   }
 }

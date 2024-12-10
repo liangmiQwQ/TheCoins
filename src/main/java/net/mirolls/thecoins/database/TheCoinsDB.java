@@ -1,5 +1,7 @@
 package net.mirolls.thecoins.database;
 
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.EnderChestInventory;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.libs.SQLExecutor;
@@ -41,7 +43,7 @@ public class TheCoinsDB {
     ArrayList<Profile> profiles = new ArrayList<>();
     try {
       PreparedStatement preparedStatement = SkyBlockDB.connection.prepareStatement(SQL);
-      preparedStatement.setString(1, SQL);
+      preparedStatement.setString(1, player.getUuidAsString());
       ResultSet result = preparedStatement.executeQuery();
 
       while (result.next()) {
@@ -81,5 +83,13 @@ public class TheCoinsDB {
     }
 
     return profile;
+  }
+
+  public static void UpdateProfileEnderChestInventory(EnderChestInventory enderChestInventory, String playerUUID, String profileID) {
+    String SQL = "UPDATE " + PROFILE_TABLE_NAME + " SET `enderChestInventory`=? WHERE `playerUUID`=?, `profileID`=?;";
+  }
+
+  public static void UpdateProfilePlayerInventory(PlayerInventory playerInventory) {
+    String SQL = "UPDATE " + PROFILE_TABLE_NAME + " SET `inventory` = ? WHERE `playerUUID`=?, `profileID`=?;";
   }
 }
