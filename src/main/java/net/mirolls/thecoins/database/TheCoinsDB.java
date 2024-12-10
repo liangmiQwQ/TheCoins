@@ -5,6 +5,7 @@ import net.minecraft.inventory.EnderChestInventory;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.libs.SQLExecutor;
+import net.mirolls.thecoins.libs.inventory.InventoryTransfer;
 import net.mirolls.thecoins.skyblock.Profile;
 
 import java.sql.PreparedStatement;
@@ -85,11 +86,31 @@ public class TheCoinsDB {
     return profile;
   }
 
-  public static void UpdateProfileEnderChestInventory(EnderChestInventory enderChestInventory, String playerUUID, String profileID) {
-    String SQL = "UPDATE " + PROFILE_TABLE_NAME + " SET `enderChestInventory`=? WHERE `playerUUID`=?, `profileID`=?;";
+  public static int UpdateProfileEnderChestInventory(EnderChestInventory enderChestInventory, String playerUUID, Boolean playing) {
+    String SQL = "UPDATE " + PROFILE_TABLE_NAME + " SET `enderChestInventory`=? WHERE `playerUUID`=?, `playing`=?;";
+    try {
+      PreparedStatement preparedStatement = SkyBlockDB.connection.prepareStatement(SQL);
+      preparedStatement.setString(1, InventoryTransfer.enderChestInventoryAsJSON(enderChestInventory));
+      preparedStatement.setString(2, playerUUID);
+      preparedStatement.setBoolean(3, playing);
+      return preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      TheCoins.LOGGER.error("Cannot UPDATE the database when update one's EnderChestInventory " + e);
+      throw new RuntimeException(e);
+    }
   }
 
-  public static void UpdateProfilePlayerInventory(PlayerInventory playerInventory) {
-    String SQL = "UPDATE " + PROFILE_TABLE_NAME + " SET `inventory` = ? WHERE `playerUUID`=?, `profileID`=?;";
+  public static int UpdateProfilePlayerInventory(PlayerInventory playerInventory, String playerUUID, Boolean playing) {
+    String SQL = "UPDATE " + PROFILE_TABLE_NAME + " SET `inventory` = ? WHERE `playerUUID`=?, `playing`=?;";
+    try {
+      PreparedStatement preparedStatement = SkyBlockDB.connection.prepareStatement(SQL);
+      preparedStatement.setString(1, InventoryTransfer.playerInventoryAsJSON(playerInventory));
+      preparedStatement.setString(2, playerUUID);
+      preparedStatement.setBoolean(3, playing);
+      return preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      TheCoins.LOGGER.error("Cannot UPDATE the database when update one's EnderChestInventory " + e);
+      throw new RuntimeException(e);
+    }
   }
 }

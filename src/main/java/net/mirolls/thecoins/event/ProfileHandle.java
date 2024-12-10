@@ -48,12 +48,14 @@ public class ProfileHandle {
     // 死后 退游戏的时候
     // disconnect
     ServerPlayConnectionEvents.DISCONNECT.register(((handler, server) -> {
-
+      TheCoinsDB.UpdateProfilePlayerInventory(handler.getPlayer().getInventory(), handler.getPlayer().getUuidAsString(), true);
+      TheCoinsDB.UpdateProfileEnderChestInventory(handler.getPlayer().getEnderChestInventory(), handler.getPlayer().getUuidAsString(), true);
     }));
 
     // after spawn
     ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
-
+      TheCoinsDB.UpdateProfilePlayerInventory(newPlayer.getInventory(), newPlayer.getUuidAsString(), true);
+      TheCoinsDB.UpdateProfileEnderChestInventory(newPlayer.getEnderChestInventory(), newPlayer.getUuidAsString(), true);
     });
   }
 }

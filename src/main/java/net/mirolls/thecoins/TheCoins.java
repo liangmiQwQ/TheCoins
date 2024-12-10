@@ -30,7 +30,6 @@ public class TheCoins implements ModInitializer {
     // init theCoins table
     TheCoinsDB.createPlayerProfileTable();
 
-
     // init MenuHandle
     MenuHandle.menuGive();
     MenuHandle.menuRemover();

@@ -1,7 +1,8 @@
 package net.mirolls.thecoins.database;
 
+import net.minecraft.util.crash.CrashException;
+import net.minecraft.util.crash.CrashReport;
 import net.mirolls.thecoins.TheCoins;
-import net.mirolls.thecoins.file.MinecraftFile;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,37 +15,49 @@ public class SkyBlockDB {
   public static Connection connection;
 
   public static void initSQLite() {
-    if (!MinecraftFile.isFileExists("skyblock", "SkyBlock.db")) {
-      // 链接数据库 不存在则自动创建
-      try {
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:skyblock/SkyBlock.db");
-        if (conn != null) connection = conn;
-        for (TableCreateSQL tableBeforeInit : tablesBeforeInit) {
-          PreparedStatement preparedStatement = connection.prepareStatement(tableBeforeInit.getCreateSQL());
-          preparedStatement.setString(1, tableBeforeInit.getTableName());
-          preparedStatement.execute();
-          preparedStatement.close();
-        }
-        // 创建链接
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
+//    if (!MinecraftFile.isFileExists("skyblock", "SkyBlock.db")) {
+    // 链接数据库 不存在则自动创建
+    try {
+      Class.forName("org.sqlite.JDBC");
+      Connection conn = DriverManager.getConnection("jdbc:sqlite:skyblock/SkyBlock.db");
+      if (conn != null) {
+        connection = conn;
+        TheCoins.LOGGER.info("Successfully connected to the database");
+      } else {
+        CrashReport crashReport = CrashReport.create(new RuntimeException("Got conn is null!"), "Crash");
+        throw new CrashException(crashReport);
       }
+      for (TableCreateSQL tableBeforeInit : tablesBeforeInit) {
+        PreparedStatement preparedStatement = connection.prepareStatement(tableBeforeInit.getCreateSQL());
+        preparedStatement.setString(1, tableBeforeInit.getTableName());
+        preparedStatement.execute();
+        preparedStatement.close();
+      }
+      // 创建链接
+    } catch (SQLException | ClassNotFoundException e) {
+      TheCoins.LOGGER.error("Cannot connect to the Database");
+      throw new RuntimeException(e);
     }
+//    }
   }
 
   public static void createTable(String tableName, DBKey[] dbKeys) {
     StringBuilder SQL =
-        new StringBuilder("CREATE TABLE IF NOT EXISTS ? (" + "`id` INTEGER PRIMARY KEY AUTOINCREMENT");
+        new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(tableName).append(" (`id` INTEGER PRIMARY KEY AUTOINCREMENT");
 
-    for (DBKey dbKey : dbKeys) {
+    for (int i = 0; i < dbKeys.length; i++) {
+      DBKey dbKey = dbKeys[i];
+      if (i != 0) {
+        SQL.append(", `");
+      }
       SQL.append(", `").append(dbKey.getName()).append("` ").append(dbKey.getType().toUpperCase()).append(dbKey.isNotNull() ? " NOT NULL" : "");
     }
     SQL.append(")");
 
     if (connection != null) {
       try {
+        TheCoins.LOGGER.info(SQL.toString());
         PreparedStatement preparedStatement = connection.prepareStatement(SQL.toString());
-        preparedStatement.setString(1, tableName);
         preparedStatement.execute();
         preparedStatement.close();
 
