@@ -20,7 +20,7 @@ public class ProfileHandle {
       // 发送提示消息
       Translation translation = new Translation(LanguageConfig.getPlayerLanguage(handler.getPlayer().getUuidAsString()));
 
-      String[] playingMessage = translation.getTranslation("YouAreNowPlaying").split(Pattern.quote("$[]]"));
+      String[] playingMessage = translation.getTranslation("YouAreNowPlaying").split(Pattern.quote("${}"));
 
       handler.getPlayer().sendMessage(
           Text.literal(
