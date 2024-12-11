@@ -37,7 +37,7 @@ public record Profile(
     data.put("coins", this.coins());
     data.put("enderChestInventory", this.enderChestInventory());
     data.put("inventory", this.inventory());
-    data.put("isPlaying", this.playing());
+    data.put("playing", this.playing());
 
     return data;
   }

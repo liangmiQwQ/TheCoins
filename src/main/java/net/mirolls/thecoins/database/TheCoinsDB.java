@@ -46,6 +46,7 @@ public class TheCoinsDB {
       PreparedStatement preparedStatement = SkyBlockDB.connection.prepareStatement(SQL);
       preparedStatement.setString(1, player.getUuidAsString());
       ResultSet result = preparedStatement.executeQuery();
+      preparedStatement.close();
 
       while (result.next()) {
         profiles.add(new Profile(
@@ -93,7 +94,9 @@ public class TheCoinsDB {
       preparedStatement.setString(1, InventoryTransfer.enderChestInventoryAsJSON(enderChestInventory));
       preparedStatement.setString(2, playerUUID);
       preparedStatement.setBoolean(3, playing);
-      return preparedStatement.executeUpdate();
+      int result = preparedStatement.executeUpdate();
+      preparedStatement.close();
+      return result;
     } catch (SQLException e) {
       TheCoins.LOGGER.error("Cannot UPDATE the database when update one's EnderChestInventory " + e);
       throw new RuntimeException(e);
@@ -107,7 +110,9 @@ public class TheCoinsDB {
       preparedStatement.setString(1, InventoryTransfer.playerInventoryAsJSON(playerInventory));
       preparedStatement.setString(2, playerUUID);
       preparedStatement.setBoolean(3, playing);
-      return preparedStatement.executeUpdate();
+      int result = preparedStatement.executeUpdate();
+      preparedStatement.close();
+      return result;
     } catch (SQLException e) {
       TheCoins.LOGGER.error("Cannot UPDATE the database when update one's EnderChestInventory " + e);
       throw new RuntimeException(e);

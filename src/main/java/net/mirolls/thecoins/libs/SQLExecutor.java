@@ -37,7 +37,9 @@ public class SQLExecutor {
       for (int i = 0; i < keyOrder.size(); i++) {
         preparedStatement.setObject(i + 1, keyAndValue.get(keyOrder.get(i)));
       }
-      return preparedStatement.executeUpdate();
+      int rs = preparedStatement.executeUpdate();
+      preparedStatement.close();
+      return rs;
     } catch (SQLException e) {
       TheCoins.LOGGER.error("Cannot create profile for player because " + e);
       throw new RuntimeException(e);

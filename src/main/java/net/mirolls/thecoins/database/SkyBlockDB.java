@@ -43,14 +43,14 @@ public class SkyBlockDB {
 
   public static void createTable(String tableName, DBKey[] dbKeys) {
     StringBuilder SQL =
-        new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(tableName).append(" (`id` INTEGER PRIMARY KEY AUTOINCREMENT");
+        new StringBuilder("CREATE TABLE IF NOT EXISTS `").append(tableName).append("`").append(" (`id` INTEGER PRIMARY KEY AUTOINCREMENT, ");
 
     for (int i = 0; i < dbKeys.length; i++) {
       DBKey dbKey = dbKeys[i];
       if (i != 0) {
-        SQL.append(", `");
+        SQL.append(", ");
       }
-      SQL.append(", `").append(dbKey.getName()).append("` ").append(dbKey.getType().toUpperCase()).append(dbKey.isNotNull() ? " NOT NULL" : "");
+      SQL.append("`").append(dbKey.getName()).append("` ").append(dbKey.getType().toUpperCase()).append(dbKey.isNotNull() ? " NOT NULL" : "");
     }
     SQL.append(")");
 
