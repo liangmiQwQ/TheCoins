@@ -54,7 +54,7 @@ public class SQLExecutor {
         SQL.append(", ");
       }
     }
-    return SQL.append(" FROM ").append(tableName).append(";").toString();
+    return SQL.append(" FROM ").append("`").append(tableName).append("`").append(";").toString();
   }
 
   public static String selectSQL(String tableName, List<String> keys, Connection connection, String whereSQL) {
@@ -65,6 +65,6 @@ public class SQLExecutor {
         SQL.append(", ");
       }
     }
-    return SQL.append(" FROM ").append(tableName).append(" WHERE ").append(whereSQL).append(";").toString();
+    return SQL.append(" FROM ").append("`").append(tableName).append("`").append(" WHERE ").append(whereSQL).append(";").toString();
   }
 }

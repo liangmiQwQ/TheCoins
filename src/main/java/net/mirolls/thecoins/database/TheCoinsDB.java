@@ -44,9 +44,9 @@ public class TheCoinsDB {
     ArrayList<Profile> profiles = new ArrayList<>();
     try {
       PreparedStatement preparedStatement = SkyBlockDB.connection.prepareStatement(SQL);
-      preparedStatement.setString(1, player.getUuidAsString());
+      String playerUUID = player.getUuidAsString();
+      preparedStatement.setString(1, playerUUID);
       ResultSet result = preparedStatement.executeQuery();
-      preparedStatement.close();
 
       while (result.next()) {
         profiles.add(new Profile(
@@ -58,6 +58,7 @@ public class TheCoinsDB {
             result.getString("inventory"),
             result.getBoolean("playing")
         ));
+        preparedStatement.close();
       }
     } catch (SQLException e) {
       TheCoins.LOGGER.error("Cannot query Players SQL");
@@ -76,11 +77,19 @@ public class TheCoinsDB {
     } else {
       for (Profile oneProfile : profiles) {
         if (oneProfile.playing()) {
-          profile = oneProfile;
-        } else {
-          TheCoins.LOGGER.error("Cannot to get playing Profile for " + player.getName().getString());
-          throw new RuntimeException("Player " + player.getName().getString() + " has a lot of Profiles but no one is playing now");
+          if (profile == null) {
+            profile = oneProfile;
+          } else {
+            TheCoins.LOGGER.error("Cannot to get playing Profile for " + player.getName().getString());
+            throw new RuntimeException("Player " + player.getName().getString() + " has a lot of Profiles but no one is playing now");
+          }
         }
+      }
+
+      if (profile == null) {
+        TheCoins.LOGGER.warn("Cannot to get Profile " + player.getName().getString() + " playing, creating a new profile");
+        profile = Profile.generateProfile(player, true);
+        createProfileForPlayer(profile);
       }
     }
 
@@ -88,7 +97,7 @@ public class TheCoinsDB {
   }
 
   public static int UpdateProfileEnderChestInventory(EnderChestInventory enderChestInventory, String playerUUID, Boolean playing) {
-    String SQL = "UPDATE " + PROFILE_TABLE_NAME + " SET `enderChestInventory`=? WHERE `playerUUID`=?, `playing`=?;";
+    String SQL = "UPDATE " + PROFILE_TABLE_NAME + " SET `enderChestInventory`=? WHERE `playerUUID`=? AND `playing`=?;";
     try {
       PreparedStatement preparedStatement = SkyBlockDB.connection.prepareStatement(SQL);
       preparedStatement.setString(1, InventoryTransfer.enderChestInventoryAsJSON(enderChestInventory));
@@ -104,7 +113,7 @@ public class TheCoinsDB {
   }
 
   public static int UpdateProfilePlayerInventory(PlayerInventory playerInventory, String playerUUID, Boolean playing) {
-    String SQL = "UPDATE " + PROFILE_TABLE_NAME + " SET `inventory` = ? WHERE `playerUUID`=?, `playing`=?;";
+    String SQL = "UPDATE " + PROFILE_TABLE_NAME + " SET `inventory` = ? WHERE `playerUUID`=? AND `playing`=?;";
     try {
       PreparedStatement preparedStatement = SkyBlockDB.connection.prepareStatement(SQL);
       preparedStatement.setString(1, InventoryTransfer.playerInventoryAsJSON(playerInventory));
