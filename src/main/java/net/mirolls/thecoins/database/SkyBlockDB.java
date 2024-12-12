@@ -56,7 +56,6 @@ public class SkyBlockDB {
 
     if (connection != null) {
       try {
-        TheCoins.LOGGER.info(SQL.toString());
         PreparedStatement preparedStatement = connection.prepareStatement(SQL.toString());
         preparedStatement.execute();
         preparedStatement.close();
