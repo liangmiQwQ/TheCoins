@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TheCoinsDB {
-  static final String PROFILE_TABLE_NAME = "playerProfile";
+  public static final String PROFILE_TABLE_NAME = "playerProfile";
 
   public static void createPlayerProfileTable() {
     SkyBlockDB.createTable(PROFILE_TABLE_NAME, new DBKey[]{
@@ -58,8 +58,10 @@ public class TheCoinsDB {
             result.getString("inventory"),
             result.getBoolean("playing")
         ));
-        preparedStatement.close();
       }
+
+      result.close();
+      preparedStatement.close();
     } catch (SQLException e) {
       TheCoins.LOGGER.error("Cannot query Players SQL");
       throw new RuntimeException(e);
