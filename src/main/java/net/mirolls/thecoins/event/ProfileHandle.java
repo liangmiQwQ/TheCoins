@@ -49,12 +49,12 @@ public class ProfileHandle {
     // 死后 退游戏的时候
     // disconnect
     ServerPlayConnectionEvents.DISCONNECT.register(((handler, server) -> {
-      TheCoinsDBUpdater.UpdateProfile(handler.getPlayer());
+      TheCoinsDBUpdater.updateProfile(handler.getPlayer());
     }));
 
     // after spawn
     ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
-      TheCoinsDBUpdater.UpdateProfile(newPlayer);
+      TheCoinsDBUpdater.updateProfile(newPlayer);
     });
   }
 }

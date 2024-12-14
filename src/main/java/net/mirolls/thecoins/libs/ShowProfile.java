@@ -56,6 +56,9 @@ public class ShowProfile {
             result.getString("profileName"),
             result.getString("playerUUID"),
             result.getDouble("coins"),
+            result.getInt("exp"),
+            result.getString("location"),
+            result.getString("respawnLocation"),
             result.getString("enderChestInventory"),
             result.getString("inventory"),
             result.getBoolean("playing")
