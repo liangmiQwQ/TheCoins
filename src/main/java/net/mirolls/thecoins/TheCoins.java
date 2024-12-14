@@ -2,7 +2,7 @@ package net.mirolls.thecoins;
 
 import net.fabricmc.api.ModInitializer;
 import net.mirolls.thecoins.database.SkyBlockDB;
-import net.mirolls.thecoins.database.TheCoinsDB;
+import net.mirolls.thecoins.database.thecoins.TheCoinsDBCreator;
 import net.mirolls.thecoins.event.MenuHandle;
 import net.mirolls.thecoins.event.ProfileHandle;
 import net.mirolls.thecoins.file.LanguageConfig;
@@ -30,7 +30,7 @@ public class TheCoins implements ModInitializer {
     SkyBlockDB.initSQLite();
 
     // init theCoins table
-    TheCoinsDB.createPlayerProfileTable();
+    TheCoinsDBCreator.createPlayerProfileTable();
 
     // init MenuHandle
     MenuHandle.menuGive();

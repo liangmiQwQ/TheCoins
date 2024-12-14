@@ -34,7 +34,6 @@ public record Profile(
           "[" + player.getSpawnPointDimension().getValue().toString()
               + "]&("
               + playerSpawnPointPosition.getX() + "," + playerSpawnPointPosition.getY() + "," + playerSpawnPointPosition.getZ() + ")";
-
     }
 
 //    ServerWorld serverWorld = player.getServer()

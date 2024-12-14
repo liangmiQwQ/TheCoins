@@ -4,7 +4,8 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.mirolls.thecoins.database.TheCoinsDB;
+import net.mirolls.thecoins.database.thecoins.TheCoinsDBCreator;
+import net.mirolls.thecoins.database.thecoins.TheCoinsDBUpdater;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.libs.MinecraftColor;
@@ -16,7 +17,7 @@ public class ProfileHandle {
   public static void firstProfileCreator() {
     ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
       // 如果玩家进入的时候没有profile则首先创建profile
-      Profile profile = TheCoinsDB.getOrCreateProfilePlaying(handler.getPlayer());
+      Profile profile = TheCoinsDBCreator.getOrCreateProfilePlaying(handler.getPlayer());
       // 发送提示消息
       Translation translation = new Translation(LanguageConfig.getPlayerLanguage(handler.getPlayer().getUuidAsString()));
 
@@ -48,12 +49,12 @@ public class ProfileHandle {
     // 死后 退游戏的时候
     // disconnect
     ServerPlayConnectionEvents.DISCONNECT.register(((handler, server) -> {
-      TheCoinsDB.UpdateProfile(handler.getPlayer());
+      TheCoinsDBUpdater.UpdateProfile(handler.getPlayer());
     }));
 
     // after spawn
     ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
-      TheCoinsDB.UpdateProfile(newPlayer);
+      TheCoinsDBUpdater.UpdateProfile(newPlayer);
     });
   }
 }

@@ -4,7 +4,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.database.SkyBlockDB;
-import net.mirolls.thecoins.database.TheCoinsDB;
+import net.mirolls.thecoins.database.thecoins.TheCoinsDBCreator;
 import net.mirolls.thecoins.skyblock.Profile;
 
 import java.sql.PreparedStatement;
@@ -31,10 +31,10 @@ public class ShowProfile {
 
   public static ArrayList<ShowProfile> getShowProfiles(ServerPlayerEntity player) {
     String SQL = SQLExecutor.selectSQL(
-        TheCoinsDB.PROFILE_TABLE_NAME,
+        TheCoinsDBCreator.PROFILE_TABLE_NAME,
         List.of("profileID", "profileName", "playerUUID", "coins", "enderChestInventory", "inventory", "playing"), SkyBlockDB.connection,
         "`profileID` IN ("
-            + SQLExecutor.selectSQLNoEnd(TheCoinsDB.PROFILE_TABLE_NAME, List.of("profileID"),
+            + SQLExecutor.selectSQLNoEnd(TheCoinsDBCreator.PROFILE_TABLE_NAME, List.of("profileID"),
             SkyBlockDB.connection,
             "`playerUUID`=?") + // 获取这个玩家下所有的档案
             ")"
