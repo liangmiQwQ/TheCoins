@@ -3,16 +3,21 @@ package net.mirolls.thecoins.gui;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.gui.screenHandles.ProfileScreenHandle;
 import net.mirolls.thecoins.item.ItemStackGUI;
+import net.mirolls.thecoins.libs.MinecraftColor;
+import net.mirolls.thecoins.libs.ShowProfile;
 import net.mirolls.thecoins.libs.SpecialItemClickedAction;
 import org.jetbrains.annotations.Nullable;
 
@@ -87,7 +92,7 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
     );
 
     // 先填充一下
-    ArrayList<Integer> emptySlot = new ArrayList<>();
+    ArrayList<Integer> emptySlots = new ArrayList<>();
     for (int i = 0; i < inventoryGUI.size(); i++) {
       if (i == 49) { // if close button
         inventoryGUI.setStack(i, closeButton);
@@ -98,7 +103,56 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
       } else if (i < 8 || i > 44) {
         inventoryGUI.setStack(i, background);
       } else {
-        emptySlot.add(i);
+        emptySlots.add(i);
+      }
+    }
+
+    if (!player.getWorld().isClient) {
+      ArrayList<ShowProfile> showProfiles = ShowProfile.getShowProfiles((ServerPlayerEntity) player);
+      for (int i = 0; i < showProfiles.size(); i++) {
+        // every profiles
+        ShowProfile showProfile = showProfiles.get(i);
+        Item itemTexture = showProfile.getPlaying() ? Items.MAP : Items.PAPER;
+
+        List<MutableText> description = new ArrayList<>(List.of(
+            Text.literal(translation.getTranslation("players")).setStyle(
+                Style.EMPTY.withColor(MinecraftColor.hexToRgb("#55FF55"))
+            )
+        ));
+        for (ServerPlayerEntity playerMembers : showProfile.getPlayers()) {
+          description.add(
+              Text.literal(playerMembers.getName().getString()).setStyle(
+                  Style.EMPTY.withColor(MinecraftColor.hexToRgb("#FFFFFF"))
+              )
+          );
+        }
+
+        description.add(Text.literal(" "));
+        if (showProfile.getPlaying()) {
+          description.add(Text.literal(translation.getTranslation("playingProfile")).setStyle(
+              Style.EMPTY.withColor(MinecraftColor.hexToRgb("#FFAA00"))
+          ));
+        } else {
+          description.add(Text.literal(translation.getTranslation("clickToSwapProfile")).setStyle(
+              Style.EMPTY.withColor(MinecraftColor.hexToRgb("#55FFFF"))
+          ));
+        }
+
+        ItemStack profileSelector = ItemStackGUI.itemStackFactory(
+            GUI_ID,
+            itemTexture,
+            Text.literal(showProfile.getProfileName()).setStyle(
+                showProfile.getPlaying() ? Style.EMPTY.withColor(MinecraftColor.hexToRgb("#55FF55"))
+                    : Style.EMPTY.withColor(MinecraftColor.hexToRgb("#FFFFFF"))
+
+            ),
+            description,
+            new SpecialItemClickedAction("Link", ""),
+            "Link",
+            null
+        );
+
+        inventoryGUI.setStack(emptySlots.get(i), profileSelector);
       }
     }
 

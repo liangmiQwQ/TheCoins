@@ -7,10 +7,13 @@
   "GUIReturn": "Return",
   "SKBMenuHead": "${}' SkyBlock Profiles",
   "SKBMenuHeadLore": "View your SkyBlock profiles!",
+  "players": "Players: ",
   "CraftingTable": "Crafting Table",
   "CraftingTableLore": "Open the crafting grid",
   "EnderChest": "Ender Chest",
   "EnderChestLore": "Store global items that you want to access at any time from anywhere here.",
   "YouAreNowPlaying": "You're now playing ${} profile",
-  "YourProfileID": "Profile ID: ${}"
+  "YourProfileID": "Profile ID: ${}",
+  "playingProfile": "That is the profile you're playing now!",
+  "clickToSwapProfile": "Click to play this profile!"
 }
