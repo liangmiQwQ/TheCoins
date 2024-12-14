@@ -24,6 +24,9 @@ public class TheCoinsDB {
         new DBKey("profileName", "TEXT", true),
         new DBKey("playerUUID", "TEXT", true), // 这里我采取一人一个 coop 的话允许填写同一个 profileID
         new DBKey("coins", "INTEGER", true),
+        new DBKey("exp", "INTEGER", true),
+        new DBKey("location", "TEXT", true),
+        new DBKey("respawnLocation", "TEXT", false),
         new DBKey("enderChestInventory", "TEXT", true), // use NBT tags
         new DBKey("inventory", "TEXT", true), // NBT tags
         new DBKey("playing", "BOOLEAN", true)
@@ -38,7 +41,7 @@ public class TheCoinsDB {
   public static ArrayList<Profile> getProfilesPlayer(ServerPlayerEntity player) {
     String SQL = SQLExecutor.selectSQL(
         PROFILE_TABLE_NAME,
-        List.of("profileID", "profileName", "playerUUID", "coins", "enderChestInventory", "inventory", "playing"), SkyBlockDB.connection,
+        List.of("profileID", "profileName", "playerUUID", "coins", "exp", "location", "respawnLocation", "enderChestInventory", "inventory", "playing"), SkyBlockDB.connection,
         "`playerUUID`=?"
     );
 
@@ -55,6 +58,9 @@ public class TheCoinsDB {
             result.getString("profileName"),
             result.getString("playerUUID"),
             result.getDouble("coins"),
+            result.getInt("exp"),
+            result.getString("location"),
+            result.getString("respawnLocation"),
             result.getString("enderChestInventory"),
             result.getString("inventory"),
             result.getBoolean("playing")
