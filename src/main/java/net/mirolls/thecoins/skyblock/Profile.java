@@ -1,8 +1,8 @@
 package net.mirolls.thecoins.skyblock;
 
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.math.BlockPos;
 import net.mirolls.thecoins.libs.RandomCharacterPicker;
+import net.mirolls.thecoins.libs.StringLocation;
 import net.mirolls.thecoins.libs.inventory.InventoryTransfer;
 
 import java.util.HashMap;
@@ -21,20 +21,7 @@ public record Profile(
   // each player has to have at least one profile. different players can have the same profile(coop)
 
   public static Profile generateProfile(ServerPlayerEntity player, boolean playing) {
-    String playerLocation =
-        "[" + player.getWorld().getRegistryKey().getValue().toString()
-            + "]&("
-            + player.getX() + "," + player.getY() + "," + player.getZ() + ")";
 
-    BlockPos playerSpawnPointPosition = player.getSpawnPointPosition();
-
-    String playerRespawn = "UNKNOWN";
-    if (playerSpawnPointPosition != null) {
-      playerRespawn =
-          "[" + player.getSpawnPointDimension().getValue().toString()
-              + "]&("
-              + playerSpawnPointPosition.getX() + "," + playerSpawnPointPosition.getY() + "," + playerSpawnPointPosition.getZ() + ")";
-    }
 
 //    ServerWorld serverWorld = player.getServer()
 
@@ -44,8 +31,8 @@ public record Profile(
         player.getUuidAsString(),
         0.0,
         player.totalExperience,
-        playerLocation,
-        playerRespawn,
+        StringLocation.encodeLocationAsString(player),
+        StringLocation.encodeRespawnAsString(player),
         InventoryTransfer.enderChestInventoryAsJSON(player.getEnderChestInventory()),
         InventoryTransfer.playerInventoryAsJSON(player.getInventory()),
         playing
