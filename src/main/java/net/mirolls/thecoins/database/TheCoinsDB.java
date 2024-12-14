@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TheCoinsDB {
   public static final String PROFILE_TABLE_NAME = "playerProfile";
@@ -128,5 +129,40 @@ public class TheCoinsDB {
       TheCoins.LOGGER.error("Cannot UPDATE the database when update one's EnderChestInventory " + e);
       throw new RuntimeException(e);
     }
+  }
+
+  public static int UpdateProfile(ServerPlayerEntity player) {
+    return TheCoinsDB.UpdateProfilePlayerInventory(player.getInventory(), player.getUuidAsString(), true)
+        + TheCoinsDB.UpdateProfileEnderChestInventory(player.getEnderChestInventory(), player.getUuidAsString(), true);
+  }
+
+  public static Profile swapProfile(ServerPlayerEntity player, String profileID) {
+    ArrayList<Profile> profiles = getProfilesPlayer(player);
+
+    Profile targetProfile = null;
+    for (Profile profile : profiles) {
+      if (Objects.equals(profile.profileID(), profileID)) {
+        // if the profile id equals each other
+        // find the target profile
+        targetProfile = profile;
+        break;
+      }
+    }
+
+    if (targetProfile == null) {
+      TheCoins.LOGGER.error("Cannot swap the profile because couldn't find the profile that id equals " + profileID);
+      throw new RuntimeException("Cannot swap the profile because couldn't find the profile that id equals " + profileID);
+    }
+
+    // 1. Save the profile playing now
+    UpdateProfile(player);
+
+    // clear the inventory
+    player.getInventory().clear();
+    player.getEnderChestInventory().clear();
+
+    // 突然意识到没办法往下写了 因为player他的位置 xp 重生点都没存储 得稍微修改一下profile
+
+    return targetProfile;
   }
 }
