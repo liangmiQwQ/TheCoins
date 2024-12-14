@@ -34,16 +34,16 @@ public class ShowProfile {
         TheCoinsDB.PROFILE_TABLE_NAME,
         List.of("profileID", "profileName", "playerUUID", "coins", "enderChestInventory", "inventory", "playing"), SkyBlockDB.connection,
         "`profileID` IN ("
-            + SQLExecutor.selectSQL(TheCoinsDB.PROFILE_TABLE_NAME, List.of("profileID"),
+            + SQLExecutor.selectSQLNoEnd(TheCoinsDB.PROFILE_TABLE_NAME, List.of("profileID"),
             SkyBlockDB.connection,
             "`playerUUID`=?") + // 获取这个玩家下所有的档案
             ")"
     );
+//    TheCoins.LOGGER.debug(SQL);
 
     try {
       PreparedStatement preparedStatement = SkyBlockDB.connection.prepareStatement(SQL);
-      preparedStatement.setBoolean(1, true);
-      preparedStatement.setString(2, player.getUuidAsString());
+      preparedStatement.setString(1, player.getUuidAsString());
       ResultSet result = preparedStatement.executeQuery();
 
       Map<String, ShowProfile> profileMap = new HashMap<>();

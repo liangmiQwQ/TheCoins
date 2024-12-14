@@ -67,4 +67,15 @@ public class SQLExecutor {
     }
     return SQL.append(" FROM ").append("`").append(tableName).append("`").append(" WHERE ").append(whereSQL).append(";").toString();
   }
+
+  public static String selectSQLNoEnd(String tableName, List<String> keys, Connection connection, String whereSQL) {
+    StringBuilder SQL = new StringBuilder("SELECT ");
+    for (int i = 0; i < keys.size(); i++) {
+      SQL.append("`").append(keys.get(i)).append("`");
+      if (i < keys.size() - 1) {
+        SQL.append(", ");
+      }
+    }
+    return SQL.append(" FROM ").append("`").append(tableName).append("`").append(" WHERE ").append(whereSQL).toString();
+  }
 }
