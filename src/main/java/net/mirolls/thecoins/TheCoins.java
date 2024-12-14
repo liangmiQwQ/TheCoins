@@ -7,6 +7,7 @@ import net.mirolls.thecoins.event.MenuHandle;
 import net.mirolls.thecoins.event.ProfileHandle;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
+import net.mirolls.thecoins.gui.function.TheCoinsFunction;
 import net.mirolls.thecoins.gui.screenHandles.ProfileScreenHandle;
 import net.mirolls.thecoins.gui.screenHandles.SKBMenuScreenHandle;
 import net.mirolls.thecoins.skyblock.TheCoinsPlugin;
@@ -42,6 +43,9 @@ public class TheCoins implements ModInitializer {
     // init config files
     LanguageConfig.initLanguageConfigFileAtFirst();
     Translation.initTranslationAtFirst();
+
+    // registry GUI functions
+    TheCoinsFunction.registerReturnFunction();
 
     // registry GUI
     SKBMenuScreenHandle.registerScreenHandlers();

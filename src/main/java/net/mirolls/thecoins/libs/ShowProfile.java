@@ -15,13 +15,13 @@ import java.util.*;
 public class ShowProfile {
   String profileName;
   String profileID;
-  ArrayList<ServerPlayerEntity> players;
+  ArrayList<String> playerNames;
   Boolean playing;
 
-  public ShowProfile(String profileName, String profileID, ArrayList<ServerPlayerEntity> players, Boolean playing) {
+  public ShowProfile(String profileName, String profileID, ArrayList<String> playerNames, Boolean playing) {
     this.profileName = profileName;
     this.profileID = profileID;
-    this.players = players;
+    this.playerNames = playerNames;
     this.playing = playing;
   }
 
@@ -75,13 +75,13 @@ public class ShowProfile {
         }
 
         // 更新玩家列表和游玩状态
-        ServerPlayerEntity playerEntity = Objects.requireNonNull(player.getServer())
+        String playerName = Objects.requireNonNull(Objects.requireNonNull(player.getServer())
             .getPlayerManager()
-            .getPlayer(profile.playerUUID());
+            .getPlayer(UUID.fromString(profile.playerUUID()))).getName().getString();
 
-        if (playerEntity != null) {
-          targetProfile.getPlayers().add(playerEntity);
-        }
+//        if (playerName != null) {
+        targetProfile.getPlayerNames().add(playerName);
+//        }
 
         if (Objects.equals(profile.playerUUID(), player.getUuidAsString())) {
           targetProfile.setPlaying(profile.playing());
@@ -126,11 +126,11 @@ public class ShowProfile {
     this.profileName = profileName;
   }
 
-  public ArrayList<ServerPlayerEntity> getPlayers() {
-    return players;
+  public ArrayList<String> getPlayerNames() {
+    return playerNames;
   }
 
-  public void setPlayers(ArrayList<ServerPlayerEntity> players) {
-    this.players = players;
+  public void setPlayerNames(ArrayList<String> playerNames) {
+    this.playerNames = playerNames;
   }
 }

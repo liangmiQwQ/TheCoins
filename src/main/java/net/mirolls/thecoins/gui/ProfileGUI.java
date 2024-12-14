@@ -12,6 +12,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.gui.screenHandles.ProfileScreenHandle;
@@ -107,6 +108,7 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
       }
     }
 
+    // 处理各个profiles
     if (!player.getWorld().isClient) {
       ArrayList<ShowProfile> showProfiles = ShowProfile.getShowProfiles((ServerPlayerEntity) player);
       for (int i = 0; i < showProfiles.size(); i++) {
@@ -115,35 +117,36 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
         Item itemTexture = showProfile.getPlaying() ? Items.MAP : Items.PAPER;
 
         List<MutableText> description = new ArrayList<>(List.of(
+            showProfile.getPlaying() ?
+                Text.literal(translation.getTranslation("playingProfile")).setStyle(
+                    Style.EMPTY.withColor(MinecraftColor.hexToRgb("#AAAAAA"))
+                ) :
+                Text.literal(translation.getTranslation("clickToSwapProfile")).setStyle(
+                    Style.EMPTY.withColor(MinecraftColor.hexToRgb("#AAAAAA"))
+                ),
+            Text.literal(" "),
             Text.literal(translation.getTranslation("players")).setStyle(
                 Style.EMPTY.withColor(MinecraftColor.hexToRgb("#55FF55"))
             )
         ));
-        for (ServerPlayerEntity playerMembers : showProfile.getPlayers()) {
+
+        TheCoins.LOGGER.info("Size of return players: " + showProfile.getPlayerNames().size());
+
+        for (String playerMembersName : showProfile.getPlayerNames()) {
           description.add(
-              Text.literal(playerMembers.getName().getString()).setStyle(
+              Text.literal(playerMembersName).setStyle(
                   Style.EMPTY.withColor(MinecraftColor.hexToRgb("#FFFFFF"))
               )
           );
         }
 
-        description.add(Text.literal(" "));
-        if (showProfile.getPlaying()) {
-          description.add(Text.literal(translation.getTranslation("playingProfile")).setStyle(
-              Style.EMPTY.withColor(MinecraftColor.hexToRgb("#FFAA00"))
-          ));
-        } else {
-          description.add(Text.literal(translation.getTranslation("clickToSwapProfile")).setStyle(
-              Style.EMPTY.withColor(MinecraftColor.hexToRgb("#55FFFF"))
-          ));
-        }
 
         ItemStack profileSelector = ItemStackGUI.itemStackFactory(
             GUI_ID,
             itemTexture,
             Text.literal(showProfile.getProfileName()).setStyle(
                 showProfile.getPlaying() ? Style.EMPTY.withColor(MinecraftColor.hexToRgb("#55FF55"))
-                    : Style.EMPTY.withColor(MinecraftColor.hexToRgb("#FFFFFF"))
+                    : Style.EMPTY.withColor(MinecraftColor.hexToRgb("#FFFF55"))
 
             ),
             description,

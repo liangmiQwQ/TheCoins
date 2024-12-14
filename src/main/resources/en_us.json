@@ -14,6 +14,6 @@
   "EnderChestLore": "Store global items that you want to access at any time from anywhere here.",
   "YouAreNowPlaying": "You're now playing ${} profile",
   "YourProfileID": "Profile ID: ${}",
-  "playingProfile": "That is the profile you're playing now!",
-  "clickToSwapProfile": "Click to play this profile!"
+  "playingProfile": "Playing Profile",
+  "clickToSwapProfile": "Click to play"
 }
