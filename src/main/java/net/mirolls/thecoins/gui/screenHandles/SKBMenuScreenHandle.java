@@ -10,7 +10,6 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
-import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.gui.SKBMenu;
 import net.mirolls.thecoins.gui.ScreenHandlerRegistryHelper;
 import net.mirolls.thecoins.item.ItemStackGUI;
@@ -23,7 +22,7 @@ public class SKBMenuScreenHandle extends ScreenHandler {
     super(ScreenHandlerType.GENERIC_9X6, syncId); // 第一个参数是 ScreenHandlerType，可以自定义一个
     inventory.onOpen(playerInventory.player);
     this.inventory = inventory;
-    TheCoins.LOGGER.info("Created SKBMenuScreenHandle");
+//    TheCoins.LOGGER.info("Created SKBMenuScreenHandle");
 
 
     // Add GUI Slots with 6x9 inventory

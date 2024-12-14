@@ -2,7 +2,9 @@
   "menu": "SkyBlock 菜单",
   "menuDescription": "通往 SkyBlock 世界的钥匙",
   "commandCoolDown": "该命令仍需要冷却${}s后可用",
-  "GUiClose": "关闭",
+  "profile": "你的存档",
+  "GUIClose": "关闭",
+  "GUIReturn": "返回",
   "SKBMenuHead": "${} 的 SkyBlock 存档",
   "SKBMenuHeadLore": "查看你的 SkyBlock 存档!",
   "CraftingTable": "工作台",
@@ -10,5 +12,5 @@
   "EnderChest": "末影箱",
   "EnderChestLore": "存储你的全局物品 你可以在任何时候 任何地点进行访问",
   "YouAreNowPlaying": "你现在正在游玩的是 ${} 存档",
-  "YourProfileID": "你的存档ID: ${}"
+  "YourProfileID": "存档 ID: ${}"
 }

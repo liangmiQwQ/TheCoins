@@ -8,6 +8,7 @@ import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.text.Text;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
+import net.mirolls.thecoins.gui.ProfileGUI;
 import net.mirolls.thecoins.gui.SKBMenu;
 import net.mirolls.thecoins.item.ItemStackGUI;
 import net.mirolls.thecoins.libs.SpecialItemClickedAction;
@@ -29,6 +30,13 @@ public class TheCoinsPlugin {
         ));
       }
     });
+
+    ItemStackGUI.registryAction("openProfiles", player -> {
+      if (!player.getWorld().isClient) {
+        ProfileGUI.openGUI(player, null);
+      }
+    });
+
     ItemStackGUI.registryAction("openEnderChest", player -> {
       if (!player.getWorld().isClient) {
         player.openHandledScreen(new SimpleNamedScreenHandlerFactory(
@@ -58,7 +66,7 @@ public class TheCoinsPlugin {
               trulyTranslation.getTranslation("SKBMenuHead").replace("${}", player.getName().getString()),
               "#23FF07",
               StringChanger.splittingString(translation.getTranslation("SKBMenuHeadLore")),
-              new SpecialItemClickedAction("Link", ""),
+              new SpecialItemClickedAction("Link", "openProfiles"),
               "Link",
               playerHeadNBT
           );

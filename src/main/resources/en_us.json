@@ -2,7 +2,9 @@
   "menu": "SkyBlock Menu",
   "menuDescription": "This item is the key to the SkyBlock world",
   "commandCoolDown": "The command is still cooling down for ${}s",
+  "profile": "Your Profiles",
   "GUIClose": "Close",
+  "GUIReturn": "Return",
   "SKBMenuHead": "${}' SkyBlock Profiles",
   "SKBMenuHeadLore": "View your SkyBlock profiles!",
   "CraftingTable": "Crafting Table",
@@ -10,5 +12,5 @@
   "EnderChest": "Ender Chest",
   "EnderChestLore": "Store global items that you want to access at any time from anywhere here.",
   "YouAreNowPlaying": "You're now playing ${} profile",
-  "YourProfileID": "Your profile ID: ${}"
+  "YourProfileID": "Profile ID: ${}"
 }

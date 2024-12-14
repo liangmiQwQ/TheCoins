@@ -63,6 +63,7 @@ public class ItemStackGUI {
               case "Function" -> {
                 if (specialItemClickedAction.getActionFunction().isEmpty()) { // == ""
                   TheCoins.LOGGER.error("The type of the ItemStack " + itemStack + "is Function but the `actionFunction` in JSON is empty");
+                  throw new RuntimeException("The type of the ItemStack " + itemStack + "is Function but the `actionFunction` in JSON is empty");
                 } else { // not empty
                   registeredActions.get(specialItemClickedAction.getActionFunction()).callback(player);
                 }  // type: function

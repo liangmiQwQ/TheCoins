@@ -10,7 +10,6 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.gui.screenHandles.SKBMenuScreenHandle;
@@ -75,7 +74,7 @@ public class SKBMenu implements NamedScreenHandlerFactory {
     if (!player.getWorld().isClient) {
       ((ServerPlayerEntity) player).closeHandledScreen();
       player.openHandledScreen(new SKBMenu(player, translation));
-      TheCoins.LOGGER.info("GUI has been opened");
+//      TheCoins.LOGGER.info("GUI has been opened");
     }
   }
 
