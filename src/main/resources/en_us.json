@@ -5,6 +5,8 @@
   "profile": "Your Profiles",
   "GUIClose": "Close",
   "GUIReturn": "Return",
+  "GUIConfirm": "Confirm",
+  "GUICancel": "Cancel",
   "SKBMenuHead": "${}' SkyBlock Profiles",
   "SKBMenuHeadLore": "View your SkyBlock profiles!",
   "players": "Players: ",

@@ -5,6 +5,8 @@
   "profile": "你的存档",
   "GUIClose": "关闭",
   "GUIReturn": "返回",
+  "GUIConfirm": "确认",
+  "GUICancel": "取消",
   "SKBMenuHead": "${} 的 SkyBlock 存档",
   "SKBMenuHeadLore": "查看你的 SkyBlock 存档!",
   "players": "玩家: ",

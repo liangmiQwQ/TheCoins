@@ -30,19 +30,26 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
   public static final String GUI_ID = "PlayerProfiles";
 
   private final Translation translation;
-  private final PlayerEntity player;
   private final SimpleInventory GUI;
 
   public ProfileGUI(PlayerEntity player) {
-    this.player = player;
     this.translation = new Translation(LanguageConfig.getPlayerLanguage(player.getUuidAsString()));
-    this.GUI = createGUI();
+    if (!player.getWorld().isClient) {
+      this.GUI = createGUI((ServerPlayerEntity) player);
+    } else {
+      throw new RuntimeException("Cannot create for player " + player.getName().getString() + " Because they're running at Client ");
+    }
+
   }
 
   public ProfileGUI(PlayerEntity player, Translation translation) {
-    this.player = player;
     this.translation = translation;
-    this.GUI = createGUI();
+    if (!player.getWorld().isClient) {
+      this.GUI = createGUI((ServerPlayerEntity) player);
+    } else {
+      throw new RuntimeException("Cannot create for player " + player.getName().getString() + " Because they're running at Client ");
+    }
+
   }
 
   public static void openGUI(PlayerEntity player, Translation translation) {
@@ -56,7 +63,7 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
     }
   }
 
-  private SimpleInventory createGUI() {
+  private SimpleInventory createGUI(ServerPlayerEntity player) {
     SimpleInventory inventoryGUI = new SimpleInventory(54);
 
     ItemStack closeButton = ItemStackGUI.itemStackFactory(
@@ -110,7 +117,7 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
 
     // 处理各个profiles
     if (!player.getWorld().isClient) {
-      ArrayList<ShowProfile> showProfiles = ShowProfile.getShowProfiles((ServerPlayerEntity) player);
+      ArrayList<ShowProfile> showProfiles = ShowProfile.getShowProfiles(player);
       for (int i = 0; i < showProfiles.size(); i++) {
         // every profiles
         ShowProfile showProfile = showProfiles.get(i);
@@ -150,7 +157,10 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
 
             ),
             description,
-            new SpecialItemClickedAction("Link", ""),
+            // if click the selected profile, do not do anything
+            showProfile.getPlaying() ? new SpecialItemClickedAction("Link", "")
+                :
+                new SpecialItemClickedAction("Link", ""),
             "Link",
             null
         );

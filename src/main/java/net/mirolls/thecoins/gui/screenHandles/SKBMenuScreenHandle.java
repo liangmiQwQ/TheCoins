@@ -18,6 +18,11 @@ import net.mirolls.thecoins.libs.StringChanger;
 public class SKBMenuScreenHandle extends ScreenHandler {
   private final Inventory inventory;
 
+  public SKBMenuScreenHandle(net.minecraft.screen.ScreenHandlerType<?> type, int syncId, Inventory inventory) {
+    super(type, syncId);
+    this.inventory = inventory;
+  }
+
   public SKBMenuScreenHandle(int syncId, Inventory inventory, PlayerInventory playerInventory) {
     super(ScreenHandlerType.GENERIC_9X6, syncId); // 第一个参数是 ScreenHandlerType，可以自定义一个
     inventory.onOpen(playerInventory.player);

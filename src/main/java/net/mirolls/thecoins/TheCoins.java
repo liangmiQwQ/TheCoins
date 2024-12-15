@@ -8,6 +8,7 @@ import net.mirolls.thecoins.event.ProfileHandle;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.gui.function.TheCoinsFunction;
+import net.mirolls.thecoins.gui.screenHandles.ConfirmScreenHandle;
 import net.mirolls.thecoins.gui.screenHandles.ProfileScreenHandle;
 import net.mirolls.thecoins.gui.screenHandles.SKBMenuScreenHandle;
 import net.mirolls.thecoins.skyblock.TheCoinsPlugin;
@@ -50,6 +51,7 @@ public class TheCoins implements ModInitializer {
     // registry GUI
     SKBMenuScreenHandle.registerScreenHandlers();
     ProfileScreenHandle.registerScreenHandlers();
+    ConfirmScreenHandle.registerScreenHandlers();
 
     // registry plugins
     TheCoinsPlugin.registry(); // self-plugin
