@@ -86,6 +86,10 @@ public class ItemStackGUI {
     registeredActions.put(actionID, action);
   }
 
+  public static void staticAction(String actionID) {
+    registeredActions.remove(actionID);
+  }
+
   public static ItemStack itemStackFactory(
       String GUI_ID,
       ItemConvertible items,
