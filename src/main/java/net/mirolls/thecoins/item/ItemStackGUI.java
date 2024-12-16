@@ -13,6 +13,9 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.mirolls.thecoins.TheCoins;
+import net.mirolls.thecoins.file.LanguageConfig;
+import net.mirolls.thecoins.file.Translation;
+import net.mirolls.thecoins.gui.ConfirmGUI;
 import net.mirolls.thecoins.libs.MinecraftColor;
 import net.mirolls.thecoins.libs.SpecialItemClickedAction;
 
@@ -57,7 +60,16 @@ public class ItemStackGUI {
               }
               case "Link" -> {
                 if (!specialItemClickedAction.getActionFunction().isEmpty()) { // not empty
-                  registeredActions.get(specialItemClickedAction.getActionFunction()).callback(player);
+                  if (specialItemClickedAction.getActionFunction().startsWith("confirm")) {
+                    //  考虑到confirm页面应该是经常使用的一个页面 这里特别注册一个 专用于打开confirm
+                    ConfirmGUI.openGUI(
+                        player,
+                        new Translation(LanguageConfig.getPlayerLanguage(player.getUuidAsString())),
+                        "GUIConfirm",
+                        specialItemClickedAction.getActionFunction().replaceFirst("^[^_]+_", ""));
+                  } else {
+                    registeredActions.get(specialItemClickedAction.getActionFunction()).callback(player);
+                  }
                 }  // type: link
               }
               case "Function" -> {

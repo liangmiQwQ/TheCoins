@@ -147,7 +147,14 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
           );
         }
 
-
+        /*
+         * 我在 createGUI 这里创建函数的原因:
+         * 1. 每个玩家不同情况 需要创建不同的函数
+         * 2. 需要设置对应的取消函数 确保玩家所有GUI关闭的时候他的数据取消 ☹️ &difficult to do&
+         * 计划:
+         * 在this里创建一个ArrayList<String> needToCancelFunctions
+         * 在createMenu函数中 创建ScreenHandle的时候传入该方法
+         * 在对应的ScreenHandle的onClosed函数中进行取消 perfect! */
         ItemStack profileSelector = ItemStackGUI.itemStackFactory(
             GUI_ID,
             itemTexture,
@@ -160,10 +167,13 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
             // if click the selected profile, do not do anything
             showProfile.getPlaying() ? new SpecialItemClickedAction("Link", "")
                 :
-                new SpecialItemClickedAction("Link", ""),
+                new SpecialItemClickedAction("Link",
+                    "confirm_swapProfile" + showProfile.getProfileID()),
             "Link",
             null
         );
+
+        // 在此我也不使用 注册函数 => 销毁的逻辑了 修改原有代码 允许参杂额外参数
 
         inventoryGUI.setStack(emptySlots.get(i), profileSelector);
       }
