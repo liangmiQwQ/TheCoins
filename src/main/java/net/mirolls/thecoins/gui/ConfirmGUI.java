@@ -25,29 +25,29 @@ public class ConfirmGUI implements NamedScreenHandlerFactory {
   private final Translation translation;
   private final SimpleInventory GUI;
 
-  public ConfirmGUI(PlayerEntity player, String displayNameTranslationID, String action) {
+  public ConfirmGUI(PlayerEntity player, String displayNameTranslationID, String action, String[] args) {
     this.translation = new Translation(LanguageConfig.getPlayerLanguage(player.getUuidAsString()));
-    this.GUI = createGUI(action, player);
+    this.GUI = createGUI(action, args, player);
     this.displayNameTranslationID = displayNameTranslationID;
   }
 
-  public ConfirmGUI(PlayerEntity player, Translation translation, String displayNameTranslationID, String action) {
+  public ConfirmGUI(PlayerEntity player, Translation translation, String displayNameTranslationID, String action, String[] args) {
     this.translation = translation;
-    this.GUI = createGUI(action, player);
+    this.GUI = createGUI(action, args, player);
     this.displayNameTranslationID = displayNameTranslationID;
   }
 
-  public static void openGUI(PlayerEntity player, Translation translation, String displayNameTranslationID, String action) {
+  public static void openGUI(PlayerEntity player, Translation translation, String displayNameTranslationID, String action, String[] args) {
     Translation realTranslation;
     realTranslation = Objects.requireNonNullElseGet(translation, () -> new Translation(LanguageConfig.getPlayerLanguage(player.getUuidAsString())));
 
     if (!player.getWorld().isClient) {
       ((ServerPlayerEntity) player).closeHandledScreen();
-      player.openHandledScreen(new ConfirmGUI(player, realTranslation, displayNameTranslationID, action));
+      player.openHandledScreen(new ConfirmGUI(player, realTranslation, displayNameTranslationID, action, args));
     }
   }
 
-  private SimpleInventory createGUI(String action, PlayerEntity player) {
+  private SimpleInventory createGUI(String action, String[] args, PlayerEntity player) {
     SimpleInventory inventory = new SimpleInventory();
 
     for (int inventoryIndex = 0; inventoryIndex < 54; inventoryIndex++) {
@@ -58,7 +58,7 @@ public class ConfirmGUI implements NamedScreenHandlerFactory {
             translation.getTranslation("GUIConfirm"),
             "#C35E12",
             List.of(),
-            new SpecialItemClickedAction("Function", action),
+            new SpecialItemClickedAction("Function", action, /* TODO */ new String[]{}),
             "Function",
             null
         ));
@@ -69,7 +69,7 @@ public class ConfirmGUI implements NamedScreenHandlerFactory {
             translation.getTranslation("GUIClose"),
             "#C35E12",
             List.of(),
-            new SpecialItemClickedAction("Close", ""),
+            new SpecialItemClickedAction("Close", "", null),
             "Close",
             null
         ));

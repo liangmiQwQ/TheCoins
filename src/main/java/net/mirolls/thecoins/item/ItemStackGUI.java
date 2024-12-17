@@ -38,11 +38,11 @@ public class ItemStackGUI {
           String clickedActionJSON = displayTag.getString("SpecialItemClickedAction");
 
 
-          SpecialItemClickedAction specialItemClickedAction = null;
+          SpecialItemClickedAction specialItemClickedAction;
           try {
             specialItemClickedAction = new ObjectMapper().readValue(clickedActionJSON, SpecialItemClickedAction.class);
           } catch (JsonProcessingException e) {
-            TheCoins.LOGGER.error("Cannot read the SpecialItemClickedAction to SpecialItemClickedAction.class while reading value");
+            TheCoins.LOGGER.error("Cannot read the SpecialItemClickedAction to JSON SpecialItemClickedAction.class while reading value");
             throw new RuntimeException(e);
           }
 
@@ -55,7 +55,7 @@ public class ItemStackGUI {
                     ((ServerPlayerEntity) player).closeHandledScreen(); // "ActionType:Close": "Player.closeHandledScreen()"
                   }
                 } else { // not empty
-                  registeredActions.get(specialItemClickedAction.getActionFunction()).callback(player);
+                  registeredActions.get(specialItemClickedAction.getActionFunction()).callback(player, specialItemClickedAction.getParam());
                 }  // type: close
               }
               case "Link" -> {
@@ -66,9 +66,11 @@ public class ItemStackGUI {
                         player,
                         new Translation(LanguageConfig.getPlayerLanguage(player.getUuidAsString())),
                         "GUIConfirm",
-                        specialItemClickedAction.getActionFunction().replaceFirst("^[^_]+_", ""));
+                        specialItemClickedAction.getActionFunction().replaceFirst("^[^_]+_", ""),
+                        specialItemClickedAction.getParam()
+                    );
                   } else {
-                    registeredActions.get(specialItemClickedAction.getActionFunction()).callback(player);
+                    registeredActions.get(specialItemClickedAction.getActionFunction()).callback(player, specialItemClickedAction.getParam());
                   }
                 }  // type: link
               }
@@ -77,7 +79,7 @@ public class ItemStackGUI {
                   TheCoins.LOGGER.error("The type of the ItemStack " + itemStack + "is Function but the `actionFunction` in JSON is empty");
                   throw new RuntimeException("The type of the ItemStack " + itemStack + "is Function but the `actionFunction` in JSON is empty");
                 } else { // not empty
-                  registeredActions.get(specialItemClickedAction.getActionFunction()).callback(player);
+                  registeredActions.get(specialItemClickedAction.getActionFunction()).callback(player, specialItemClickedAction.getParam());
                 }  // type: function
               }
               case "Background" -> {
@@ -96,10 +98,6 @@ public class ItemStackGUI {
 
   public static void registryAction(String actionID, ItemStackGUICallBack action) {
     registeredActions.put(actionID, action);
-  }
-
-  public static void staticAction(String actionID) {
-    registeredActions.remove(actionID);
   }
 
   public static ItemStack itemStackFactory(
@@ -167,7 +165,8 @@ public class ItemStackGUI {
       List<MutableText> itemLore,
       String itemStackActionType,
       NbtCompound itemOtherNBT,
-      SpecialItemClickedAction clickedAction) {
+      SpecialItemClickedAction clickedAction /* 这个对象里多个参数允许传入string 但是只允许传入string 理由:要拼接字符串 */
+  ) {
     ItemStack itemStack = new ItemStack(items);
 
     itemStack.setNbt(itemOtherNBT);
@@ -193,11 +192,10 @@ public class ItemStackGUI {
 
     displayTag.put("SpecialItemID", NbtString.of(GUI_ID + "_#&*&#_" + itemStackActionType));
 
-
     try {
       displayTag.put("SpecialItemClickedAction", NbtString.of(new ObjectMapper().writeValueAsString(clickedAction))); // use JSON to parse
     } catch (JsonProcessingException e) {
-      TheCoins.LOGGER.error("Cannot make button " + GUI_ID + "_#&*&#_");
+      TheCoins.LOGGER.error("Cannot make button " + GUI_ID + "_#&*&#_" + itemStackActionType);
       throw new RuntimeException(e);
     }
 

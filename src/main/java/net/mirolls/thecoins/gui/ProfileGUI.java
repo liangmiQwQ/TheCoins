@@ -168,7 +168,7 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
             showProfile.getPlaying() ? new SpecialItemClickedAction("Link", "")
                 :
                 new SpecialItemClickedAction("Link",
-                    "confirm_swapProfile" + showProfile.getProfileID()),
+                    "confirm_swapProfile" + showProfile.getProfileID(), new String[]{showProfile.getProfileID()}),
             "Link",
             null
         );
