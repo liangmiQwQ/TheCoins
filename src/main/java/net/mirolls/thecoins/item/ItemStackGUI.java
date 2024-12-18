@@ -60,7 +60,7 @@ public class ItemStackGUI {
               }
               case "Link" -> {
                 if (!specialItemClickedAction.getActionFunction().isEmpty()) { // not empty
-                  if (specialItemClickedAction.getActionFunction().startsWith("confirm")) {
+                  if (specialItemClickedAction.getActionFunction().startsWith("confirm_")) {
                     //  考虑到confirm页面应该是经常使用的一个页面 这里特别注册一个 专用于打开confirm
                     ConfirmGUI.openGUI(
                         player,

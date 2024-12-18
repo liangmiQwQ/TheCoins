@@ -58,7 +58,7 @@ public class ConfirmGUI implements NamedScreenHandlerFactory {
             translation.getTranslation("GUIConfirm"),
             "#C35E12",
             List.of(),
-            new SpecialItemClickedAction("Function", action, /* TODO */ new String[]{}),
+            new SpecialItemClickedAction("Function", action, args),
             "Function",
             null
         ));

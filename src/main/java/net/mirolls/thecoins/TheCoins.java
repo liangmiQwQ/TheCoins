@@ -47,6 +47,7 @@ public class TheCoins implements ModInitializer {
 
     // registry GUI functions
     TheCoinsFunction.registerReturnFunction();
+    TheCoinsFunction.registerSwapProfileFunction();
 
     // registry GUI
     SKBMenuScreenHandle.registerScreenHandlers();
