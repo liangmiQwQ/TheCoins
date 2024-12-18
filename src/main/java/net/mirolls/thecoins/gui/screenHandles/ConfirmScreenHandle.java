@@ -13,7 +13,7 @@ import net.mirolls.thecoins.libs.StringChanger;
 public class ConfirmScreenHandle extends SKBMenuScreenHandle {
 
   public ConfirmScreenHandle(int syncId, Inventory inventory, PlayerInventory playerInventory) {
-    super(ScreenHandlerType.GENERIC_9X6, syncId, inventory);
+    super(ScreenHandlerType.GENERIC_9X3, syncId, inventory);
     inventory.onOpen(playerInventory.player);
 
     int rows = 3;

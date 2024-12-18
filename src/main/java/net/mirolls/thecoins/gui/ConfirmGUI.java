@@ -48,15 +48,15 @@ public class ConfirmGUI implements NamedScreenHandlerFactory {
   }
 
   private SimpleInventory createGUI(String action, String[] args, PlayerEntity player) {
-    SimpleInventory inventory = new SimpleInventory();
+    SimpleInventory inventory = new SimpleInventory(27);
 
-    for (int inventoryIndex = 0; inventoryIndex < 54; inventoryIndex++) {
+    for (int inventoryIndex = 0; inventoryIndex < inventory.size(); inventoryIndex++) {
       if (inventoryIndex == 11) {
         inventory.setStack(inventoryIndex, ItemStackGUI.itemStackFactory(
             GUI_ID,
             Items.GREEN_CONCRETE,
             translation.getTranslation("GUIConfirm"),
-            "#C35E12",
+            "#55FF55",
             List.of(),
             new SpecialItemClickedAction("Function", action, args),
             "Function",

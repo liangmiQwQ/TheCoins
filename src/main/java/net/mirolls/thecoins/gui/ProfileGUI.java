@@ -173,7 +173,7 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
             showProfile.getPlaying() ? new SpecialItemClickedAction("Link", "")
                 :
                 new SpecialItemClickedAction("Link",
-                    "confirm_swapProfile" + showProfile.getProfileID(), new String[]{showProfile.getProfileID()}),
+                    "confirm_swapProfile", new String[]{showProfile.getProfileID()}),
             // 仅仅需要创建swapProfile这一个函数就可以解决所有问题
             "Link",
             null
