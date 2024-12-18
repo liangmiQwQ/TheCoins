@@ -32,8 +32,9 @@ public class TheCoinsDBCreator {
   }
   // coins表就不需要了 因为profile里已经包含了coins信息
 
-  public static void createProfileForPlayer(Profile playerProfile) {
+  public static Profile createProfileForPlayer(Profile playerProfile) {
     SQLExecutor.insert(PROFILE_TABLE_NAME, playerProfile.asHashMap(), SkyBlockDB.connection);
+    return playerProfile;
   }
 
   public static ArrayList<Profile> getProfilesPlayer(ServerPlayerEntity player) {

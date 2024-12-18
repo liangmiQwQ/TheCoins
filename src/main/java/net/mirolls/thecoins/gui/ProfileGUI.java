@@ -88,6 +88,17 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
         null
     );
 
+    ItemStack createButton = ItemStackGUI.itemStackFactory(
+        GUI_ID,
+        Items.OAK_BUTTON,
+        translation.getTranslation("GUICreateProfile"),
+        "#FFFFFF",
+        List.of(),
+        new SpecialItemClickedAction("Link", "confirm_createProfile"),
+        "Link",
+        null
+    );
+
     ItemStack background = ItemStackGUI.itemStackFactory(
         GUI_ID,
         Items.BLACK_STAINED_GLASS_PANE,
@@ -106,6 +117,8 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
         inventoryGUI.setStack(i, closeButton);
       } else if (i == 48) {
         inventoryGUI.setStack(i, returnButton);
+      } else if (i == 50) {
+        inventoryGUI.setStack(i, createButton);
       } else if (i % 9 == 0 || (i + 1) % 9 == 0) {
         inventoryGUI.setStack(i, background);
       } else if (i < 8 || i > 44) {
@@ -119,7 +132,7 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
     if (!player.getWorld().isClient) {
       ArrayList<ShowProfile> showProfiles = ShowProfile.getShowProfiles(player);
       for (int i = 0; i < showProfiles.size(); i++) {
-        // every profiles
+        // every profile
         ShowProfile showProfile = showProfiles.get(i);
         Item itemTexture = showProfile.getPlaying() ? Items.MAP : Items.PAPER;
 
