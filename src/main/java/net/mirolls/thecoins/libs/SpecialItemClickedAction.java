@@ -16,6 +16,9 @@ public class SpecialItemClickedAction {
     this.param = param;
   }
 
+  public SpecialItemClickedAction() {
+  }
+
   public SpecialItemClickedAction(String actionType, String actionFunction) {
     this.actionType = actionType;
     this.actionFunction = actionFunction;

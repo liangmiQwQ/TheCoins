@@ -32,7 +32,9 @@ public class ShowProfile {
   public static ArrayList<ShowProfile> getShowProfiles(ServerPlayerEntity player) {
     String SQL = SQLExecutor.selectSQL(
         TheCoinsDBCreator.PROFILE_TABLE_NAME,
-        List.of("profileID", "profileName", "playerUUID", "coins", "enderChestInventory", "inventory", "playing"), SkyBlockDB.connection,
+        List.of("profileID", "profileName", "playerUUID", "coins", /*"exp", "location", "respawnLocation",
+        "enderChestInventory",
+        "inventory", */"playing"), SkyBlockDB.connection,
         "`profileID` IN ("
             + SQLExecutor.selectSQLNoEnd(TheCoinsDBCreator.PROFILE_TABLE_NAME, List.of("profileID"),
             SkyBlockDB.connection,
@@ -56,11 +58,12 @@ public class ShowProfile {
             result.getString("profileName"),
             result.getString("playerUUID"),
             result.getDouble("coins"),
-            result.getInt("exp"),
-            result.getString("location"),
-            result.getString("respawnLocation"),
-            result.getString("enderChestInventory"),
-            result.getString("inventory"),
+            0, "", "", "", "", // don't need
+//            result.getInt("exp"),
+//            result.getString("location"),
+//            result.getString("respawnLocation"),
+//            result.getString("enderChestInventory"),
+//            result.getString("inventory"),
             result.getBoolean("playing")
         );
 
