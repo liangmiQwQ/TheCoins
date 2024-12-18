@@ -22,7 +22,7 @@ public class TheCoinsPlugin {
   public static void registry() {
     ArrayList<PluginGetItemStack> pluginItemStacks = new ArrayList<>();
     ArrayList<PluginButtonLocation> pluginButtonLocations = new ArrayList<>();
-    ItemStackGUI.registryAction("openCraft", player -> {
+    ItemStackGUI.registryAction("openCraft", (player, args) -> {
       if (!player.getWorld().isClient) {
         player.openHandledScreen(new SimpleNamedScreenHandlerFactory(
             (syncId, playerInventory, playerEntity) -> ScreenHandlerType.CRAFTING.create(syncId, playerInventory),
@@ -31,13 +31,13 @@ public class TheCoinsPlugin {
       }
     });
 
-    ItemStackGUI.registryAction("openProfiles", player -> {
+    ItemStackGUI.registryAction("openProfiles", (player, args) -> {
       if (!player.getWorld().isClient) {
         ProfileGUI.openGUI(player, null);
       }
     });
 
-    ItemStackGUI.registryAction("openEnderChest", player -> {
+    ItemStackGUI.registryAction("openEnderChest", (player, args) -> {
       if (!player.getWorld().isClient) {
         player.openHandledScreen(new SimpleNamedScreenHandlerFactory(
             (syncId, playerInventory, playerEntity) -> new GenericContainerScreenHandler(
