@@ -3,6 +3,7 @@ package net.mirolls.thecoins.database.thecoins;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.database.SkyBlockDB;
+import net.mirolls.thecoins.item.Menu;
 import net.mirolls.thecoins.libs.StringLocation;
 import net.mirolls.thecoins.libs.inventory.InventoryTransfer;
 import net.mirolls.thecoins.skyblock.Profile;
@@ -112,6 +113,8 @@ public class TheCoinsDBUpdater {
     // 解析坐标
     StringLocation.setLocationFromString(player, targetProfile.location());
     StringLocation.setRespawnFromString(player, targetProfile.respawnLocation());
+
+    Menu.replaceMenu(player);
 
     return targetProfile;
   }
