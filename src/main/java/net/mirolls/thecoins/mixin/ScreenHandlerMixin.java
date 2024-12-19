@@ -6,7 +6,6 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.collection.DefaultedList;
-import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.gui.SKBMenu;
 import net.mirolls.thecoins.item.Menu;
 import org.spongepowered.asm.mixin.Final;
@@ -58,10 +57,10 @@ public abstract class ScreenHandlerMixin {
       ItemStack itemStackInSlot = player.getInventory().getStack(button);
       Slot slot = this.slots.get(slotIndex);
       ItemStack itemStackInHand = slot.getStack();
-      TheCoins.LOGGER.info("itemStackInSlot: " + itemStackInSlot + " itemStackInHand: " + itemStackInHand);
+//      TheCoins.LOGGER.info("itemStackInSlot: " + itemStackInSlot + " itemStackInHand: " + itemStackInHand);
       if (Menu.isMenu(itemStackInSlot) || Menu.isMenu(itemStackInHand)) {
         // slot is menu
-        // we should replace itemStackInSlot (replace menu)
+        // we should replace itemStackInSlot (replace a menu)
         ci.cancel();
         this.setStackButton = button;
         this.setStackItemStack = itemStackInSlot;
