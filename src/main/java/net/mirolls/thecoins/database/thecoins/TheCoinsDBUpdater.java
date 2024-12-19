@@ -1,9 +1,14 @@
 package net.mirolls.thecoins.database.thecoins;
 
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
 import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.database.SkyBlockDB;
+import net.mirolls.thecoins.file.LanguageConfig;
+import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.item.Menu;
+import net.mirolls.thecoins.libs.MinecraftColor;
 import net.mirolls.thecoins.libs.StringLocation;
 import net.mirolls.thecoins.libs.inventory.InventoryTransfer;
 import net.mirolls.thecoins.skyblock.Profile;
@@ -12,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import static net.mirolls.thecoins.database.thecoins.TheCoinsDBCreator.PROFILE_TABLE_NAME;
 
@@ -28,8 +34,8 @@ public class TheCoinsDBUpdater {
       preparedStatement.setInt(3, player.totalExperience);
       preparedStatement.setString(4, StringLocation.encodeLocationAsString(player));
       preparedStatement.setString(5, StringLocation.encodeRespawnAsString(player));
-      preparedStatement.setString(5, player.getUuidAsString());
-      preparedStatement.setBoolean(6, true);
+      preparedStatement.setString(6, player.getUuidAsString());
+      preparedStatement.setBoolean(7, true);
 
       int result = preparedStatement.executeUpdate();
       preparedStatement.close();
@@ -105,6 +111,8 @@ public class TheCoinsDBUpdater {
     player.getInventory().clear();
     player.getEnderChestInventory().clear();
 
+    player.closeHandledScreen();
+
     // change the database 在数据库层面继续更改
     updateProfilePlaying(player.getUuidAsString(), targetProfileID);
 
@@ -115,6 +123,31 @@ public class TheCoinsDBUpdater {
     StringLocation.setRespawnFromString(player, targetProfile.respawnLocation());
 
     Menu.replaceMenu(player);
+
+    // 发送提示消息
+    // 如果玩家进入的时候没有profile则首先创建profile
+    Translation translation = new Translation(LanguageConfig.getPlayerLanguage(player.getUuidAsString()));
+
+    String[] playingMessage = translation.getTranslation("YouAreNowPlaying").split(Pattern.quote("${}"));
+
+    player.sendMessage(
+        Text.literal(
+                playingMessage[0]
+            ).setStyle(Style.EMPTY.withColor(MinecraftColor.hexToRgb("#55FF55")))
+            .append(Text.literal(
+                targetProfile.profileName()
+            ).setStyle(Style.EMPTY.withColor(MinecraftColor.hexToRgb("#FFAA00"))))
+            .append(Text.literal(
+                playingMessage[1]
+            ).setStyle(Style.EMPTY.withColor(MinecraftColor.hexToRgb("#55FF55"))))
+    );
+
+    // 额外send一个profileID
+    player.sendMessage(
+        Text.literal(
+            translation.getTranslation("YourProfileID").replace("${}", targetProfile.profileID())
+        ).setStyle(Style.EMPTY.withColor(MinecraftColor.hexToRgb("#AAAAAA")))
+    );
 
     return targetProfile;
   }

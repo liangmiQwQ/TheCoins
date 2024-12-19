@@ -12,7 +12,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.mirolls.thecoins.TheCoins;
 import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.gui.screenHandles.ProfileScreenHandle;
@@ -150,7 +149,6 @@ public class ProfileGUI implements NamedScreenHandlerFactory {
             )
         ));
 
-        TheCoins.LOGGER.info("Size of return players: " + showProfile.getPlayerNames().size());
 
         for (String playerMembersName : showProfile.getPlayerNames()) {
           description.add(

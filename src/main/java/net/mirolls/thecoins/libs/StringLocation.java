@@ -7,6 +7,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.mirolls.thecoins.TheCoins;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -14,6 +15,8 @@ import java.util.regex.Pattern;
 public class StringLocation {
 
   public static String encodeLocationAsString(ServerPlayerEntity player) {
+    TheCoins.LOGGER.info("location: " + player.getX() + " | " + player.getY() + " | " + player.getZ());
+
     return
         "[" + player.getWorld().getRegistryKey().getValue().toString()
             + "]&("
