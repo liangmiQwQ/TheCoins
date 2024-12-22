@@ -27,6 +27,9 @@ public class TheCoinsDBCreator {
         new DBKey("respawnLocation", "TEXT", false),
         new DBKey("enderChestInventory", "TEXT", true), // use NBT tags
         new DBKey("inventory", "TEXT", true), // NBT tags
+        new DBKey("health", "REAL", true),
+        new DBKey("hunger", "TEXT", true),
+        new DBKey("gameMode", "TEXT", true),
         new DBKey("playing", "BOOLEAN", true)
     });
   }
@@ -40,7 +43,7 @@ public class TheCoinsDBCreator {
   public static ArrayList<Profile> getProfilesPlayer(ServerPlayerEntity player) {
     String SQL = SQLExecutor.selectSQL(
         PROFILE_TABLE_NAME,
-        List.of("profileID", "profileName", "playerUUID", "coins", "exp", "location", "respawnLocation", "enderChestInventory", "inventory", "playing"), SkyBlockDB.connection,
+        List.of("profileID", "profileName", "playerUUID", "coins", "exp", "location", "respawnLocation", "enderChestInventory", "inventory", "health", "hunger", "gameMode", "playing"), SkyBlockDB.connection,
         "`playerUUID`=?"
     );
 
@@ -62,6 +65,9 @@ public class TheCoinsDBCreator {
             result.getString("respawnLocation"),
             result.getString("enderChestInventory"),
             result.getString("inventory"),
+            result.getFloat("health"),
+            result.getString("hunger"),
+            result.getString("gameMode"),
             result.getBoolean("playing")
         ));
       }

@@ -1,6 +1,7 @@
 package net.mirolls.thecoins.database.thecoins;
 
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.mirolls.thecoins.TheCoins;
@@ -9,7 +10,7 @@ import net.mirolls.thecoins.file.LanguageConfig;
 import net.mirolls.thecoins.file.Translation;
 import net.mirolls.thecoins.item.Menu;
 import net.mirolls.thecoins.libs.MinecraftColor;
-import net.mirolls.thecoins.libs.StringLocation;
+import net.mirolls.thecoins.libs.StringHelper;
 import net.mirolls.thecoins.libs.inventory.InventoryTransfer;
 import net.mirolls.thecoins.skyblock.Profile;
 
@@ -32,8 +33,8 @@ public class TheCoinsDBUpdater {
       preparedStatement.setString(1, InventoryTransfer.enderChestInventoryAsJSON(player.getEnderChestInventory()));
       preparedStatement.setString(2, InventoryTransfer.playerInventoryAsJSON(player.getInventory()));
       preparedStatement.setInt(3, player.totalExperience);
-      preparedStatement.setString(4, StringLocation.encodeLocationAsString(player));
-      preparedStatement.setString(5, StringLocation.encodeRespawnAsString(player));
+      preparedStatement.setString(4, StringHelper.encodeLocationAsString(player));
+      preparedStatement.setString(5, StringHelper.encodeRespawnAsString(player));
       preparedStatement.setString(6, player.getUuidAsString());
       preparedStatement.setBoolean(7, true);
 
@@ -119,8 +120,8 @@ public class TheCoinsDBUpdater {
     // change the exp location respawnLocation 在玩家层面进行修改
     player.totalExperience = targetProfile.exp();
     // 解析坐标
-    StringLocation.setLocationFromString(player, targetProfile.location());
-    StringLocation.setRespawnFromString(player, targetProfile.respawnLocation());
+    StringHelper.setLocationFromString(player, targetProfile.location());
+    StringHelper.setRespawnFromString(player, targetProfile.respawnLocation());
 
     Menu.replaceMenu(player);
 
@@ -141,6 +142,8 @@ public class TheCoinsDBUpdater {
                 playingMessage[1]
             ).setStyle(Style.EMPTY.withColor(MinecraftColor.hexToRgb("#55FF55"))))
     );
+
+    player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
 
     // 额外send一个profileID
     player.sendMessage(
