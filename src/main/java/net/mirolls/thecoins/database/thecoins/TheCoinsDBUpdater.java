@@ -145,6 +145,7 @@ public class TheCoinsDBUpdater {
 
     player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
 
+
     // 额外send一个profileID
     player.sendMessage(
         Text.literal(
