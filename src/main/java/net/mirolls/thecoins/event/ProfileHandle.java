@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 public class ProfileHandle {
   public static void firstProfileCreator() {
     ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-      if (!Carpet.isFakePlayer(handler)) {
+      if (!Carpet.isFakePlayer(handler.getPlayer())) {
         // 如果玩家进入的时候没有profile则首先创建profile
         Profile profile = TheCoinsDBCreator.getOrCreateProfilePlaying(handler.getPlayer());
         // 发送提示消息

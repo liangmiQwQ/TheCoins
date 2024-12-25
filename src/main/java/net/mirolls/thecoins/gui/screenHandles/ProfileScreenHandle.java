@@ -6,7 +6,7 @@ import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.ScreenHandlerType;
 import net.mirolls.thecoins.gui.ProfileGUI;
 import net.mirolls.thecoins.gui.ScreenHandlerRegistryHelper;
-import net.mirolls.thecoins.libs.StringChanger;
+import net.mirolls.thecoins.libs.StringHelper;
 
 public class ProfileScreenHandle extends SKBMenuScreenHandle {
   public ProfileScreenHandle(int syncId, Inventory inventory, PlayerInventory playerInventory) {
@@ -19,6 +19,6 @@ public class ProfileScreenHandle extends SKBMenuScreenHandle {
 
   public static void registerScreenHandlers() {
     // 注册 ScreenHandler
-    ScreenHandlerRegistryHelper.register(StringChanger.camelToSnake(ProfileGUI.GUI_ID), new ScreenHandlerType<>(ProfileScreenHandle::new, FeatureSet.empty()));
+    ScreenHandlerRegistryHelper.register(StringHelper.camelToSnake(ProfileGUI.GUI_ID), new ScreenHandlerType<>(ProfileScreenHandle::new, FeatureSet.empty()));
   }
 }

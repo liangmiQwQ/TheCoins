@@ -58,7 +58,7 @@ public class ShowProfile {
             result.getString("profileName"),
             result.getString("playerUUID"),
             result.getDouble("coins"),
-            0, "", "", "", "", // don't need
+            0, "", "", "", "", 0.0f, "", "",// don't need
 //            result.getInt("exp"),
 //            result.getString("location"),
 //            result.getString("respawnLocation"),

@@ -12,7 +12,7 @@ import net.mirolls.thecoins.gui.ProfileGUI;
 import net.mirolls.thecoins.gui.SKBMenu;
 import net.mirolls.thecoins.item.ItemStackGUI;
 import net.mirolls.thecoins.libs.SpecialItemClickedAction;
-import net.mirolls.thecoins.libs.StringChanger;
+import net.mirolls.thecoins.libs.StringHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +65,7 @@ public class TheCoinsPlugin {
               Items.PLAYER_HEAD,
               trulyTranslation.getTranslation("SKBMenuHead").replace("${}", player.getName().getString()),
               "#23FF07",
-              StringChanger.splittingString(translation.getTranslation("SKBMenuHeadLore")),
+              StringHelper.splittingString(translation.getTranslation("SKBMenuHeadLore")),
               new SpecialItemClickedAction("Link", "openProfiles"),
               "Link",
               playerHeadNBT
@@ -121,7 +121,7 @@ public class TheCoinsPlugin {
               Items.ENDER_CHEST,
               trulyTranslation.getTranslation("EnderChest"),
               "#23FF07",
-              StringChanger.splittingString(translation.getTranslation("EnderChestLore")),
+              StringHelper.splittingString(translation.getTranslation("EnderChestLore")),
               new SpecialItemClickedAction("Link", "openEnderChest"),
               "Link",
               null

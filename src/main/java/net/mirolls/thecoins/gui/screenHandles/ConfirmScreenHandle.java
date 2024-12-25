@@ -8,7 +8,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import net.mirolls.thecoins.gui.ConfirmGUI;
 import net.mirolls.thecoins.gui.ScreenHandlerRegistryHelper;
-import net.mirolls.thecoins.libs.StringChanger;
+import net.mirolls.thecoins.libs.StringHelper;
 
 public class ConfirmScreenHandle extends SKBMenuScreenHandle {
 
@@ -44,6 +44,6 @@ public class ConfirmScreenHandle extends SKBMenuScreenHandle {
 
   public static void registerScreenHandlers() {
     // 注册 ScreenHandler
-    ScreenHandlerRegistryHelper.register(StringChanger.camelToSnake(ConfirmGUI.GUI_ID), new ScreenHandlerType<>(ConfirmScreenHandle::new, FeatureSet.empty()));
+    ScreenHandlerRegistryHelper.register(StringHelper.camelToSnake(ConfirmGUI.GUI_ID), new ScreenHandlerType<>(ConfirmScreenHandle::new, FeatureSet.empty()));
   }
 }

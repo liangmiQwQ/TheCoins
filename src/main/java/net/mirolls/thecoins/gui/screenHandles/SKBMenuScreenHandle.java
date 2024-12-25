@@ -13,7 +13,7 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.mirolls.thecoins.gui.SKBMenu;
 import net.mirolls.thecoins.gui.ScreenHandlerRegistryHelper;
 import net.mirolls.thecoins.item.ItemStackGUI;
-import net.mirolls.thecoins.libs.StringChanger;
+import net.mirolls.thecoins.libs.StringHelper;
 
 public class SKBMenuScreenHandle extends ScreenHandler {
   private final Inventory inventory;
@@ -60,7 +60,7 @@ public class SKBMenuScreenHandle extends ScreenHandler {
 
   public static void registerScreenHandlers() {
     // 注册 ScreenHandler
-    ScreenHandlerRegistryHelper.register(StringChanger.camelToSnake(SKBMenu.GUI_ID), new ScreenHandlerType<>(SKBMenuScreenHandle::new, FeatureSet.empty()));
+    ScreenHandlerRegistryHelper.register(StringHelper.camelToSnake(SKBMenu.GUI_ID), new ScreenHandlerType<>(SKBMenuScreenHandle::new, FeatureSet.empty()));
   }
 
   @Override
